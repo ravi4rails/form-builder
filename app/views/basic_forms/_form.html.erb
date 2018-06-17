@@ -29,6 +29,15 @@
       <%= link_to_add_association 'Add Block', f, :form_blocks, class: "btn btn-success" %>
     </div>
   </div>
+  
+  <div id="multiple_choices">
+    <%= f.fields_for :multiple_choices do |multiple_choice| %>
+      <%= render 'multiple_choice_fields', f: multiple_choice %>
+    <% end %>
+    <div class="links mb-1">
+      <%= link_to_add_association 'Add Multiple', f, :multiple_choices, class: "btn btn-success" %>
+    </div>
+  </div>
 
   <div class="actions">
     <%= f.submit %>

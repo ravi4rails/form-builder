@@ -1,6 +1,6 @@
 class BasicFormsController < ApplicationController
   before_action :set_basic_form, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, only: [:preview_form]
+  # before_action :authenticate_user!, only: [:preview_form]
   # GET /basic_forms
   # GET /basic_forms.json
   def index
@@ -108,7 +108,7 @@ class BasicFormsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def basic_form_params
-      params.require(:basic_form).permit(:name, :description, form_blocks_attributes: [:id, :label, :field_type, :is_required, :_destroy])
+      params.require(:basic_form).permit!
     end
 
     def submission_params
