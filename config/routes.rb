@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :basic_forms do 
     member do 
       get :preview_form
+      get :submissions
     end
     collection do 
       post :collect_user_response
