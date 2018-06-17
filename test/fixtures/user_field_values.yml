@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  value: MyString
+  user: one
+  form_block: one
+
+two:
+  value: MyString
+  user: two
+  form_block: two

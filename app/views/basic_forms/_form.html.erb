@@ -1,0 +1,36 @@
+<%= form_with(model: basic_form, local: true) do |f| %>
+  <% if basic_form.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(basic_form.errors.count, "error") %> prohibited this basic_form from being saved:</h2>
+
+      <ul>
+      <% basic_form.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, id: :basic_form_name, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :description %>
+    <%= f.text_area :description, id: :basic_form_description, class: "form-control", rows: "5" %>
+  </div>
+
+  <div id="form_blocks" class="mt-3">
+    <%= f.fields_for :form_blocks do |form_block| %>
+      <%= render 'form_block_fields', f: form_block %>
+    <% end %>
+    <div class="links mb-1">
+      <%= link_to_add_association 'Add Block', f, :form_blocks, class: "btn btn-success" %>
+    </div>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,17 @@
+<div class="nested-fields">
+  <div class="field">
+    <%= f.label :label %>
+    <br/>
+    <%= f.text_field :label, value: "Untitled Question?" %>
+  </div>
+  <div class="field">
+    <%= f.label :tag %>
+    <br/>
+    <%= f.text_field :tag, value: "Untitled Question?" %>
+  </div>
+  <div class="field">
+    <%= f.check_box :is_required %>
+    <%= f.label :is_required %>
+  </div>
+  <%= link_to_remove_association "remove task", f %>
+</div>

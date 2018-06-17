@@ -1,0 +1,41 @@
+<%= form_for  @form do |f| %>
+  <% if @form.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(form.errors.count, "error") %> prohibited this form from being saved:</h2>
+
+      <ul>
+      <% @form.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name, id: :f_name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :description %>
+    <%= f.text_area :description, id: :f_description %>
+  </div>
+
+  <div class="field">
+    <%= f.label :is_published %>
+    <%= f.check_box :is_published, id: :f_is_published %>
+  </div>
+
+  <div id="tasks">
+    <%= f.fields_for :form_fields do |form_field| %>
+      <%= render 'form_field_fields', f: form_field %>
+    <% end %>
+    <div class="links">
+      <%= link_to_add_association 'Add Field', f, :form_fields %>
+    </div>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

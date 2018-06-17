@@ -1,0 +1,72 @@
+<%= form_with(model: feedback_form, local: true) do |f| %>
+  <% if feedback_form.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(feedback_form.errors.count, "error") %> prohibited this feedback_form from being saved:</h2>
+
+      <ul>
+      <% feedback_form.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name, id: :feedback_f_name, class: "form-control" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :description %>
+    <%= f.text_area :description, id: :feedback_f_description, class: "form-control" %>
+  </div>
+
+  <div id="short_questions" class="mt-3">
+    <%= f.fields_for :short_questions do |short_question| %>
+      <%= render 'short_question_fields', f: short_question %>
+    <% end %>
+    <div class="links mb-1">
+      <%= link_to_add_association 'Add Short', f, :short_questions, class: "btn btn-success" %>
+    </div>
+  </div>
+
+  <div id="paragraph_questions">
+    <%= f.fields_for :paragraph_questions do |paragraph_question| %>
+      <%= render 'paragraph_question_fields', f: paragraph_question %>
+    <% end %>
+    <div class="links mb-1">
+      <%= link_to_add_association 'Add Paragraph', f, :paragraph_questions, class: "btn btn-success" %>
+    </div>
+  </div>
+
+  <div id="multiple_choices">
+    <%= f.fields_for :multiple_choices do |multiple_choice| %>
+      <%= render 'multiple_choice_fields', f: multiple_choice %>
+    <% end %>
+    <div class="links mb-1">
+      <%= link_to_add_association 'Add Multiple', f, :multiple_choices, class: "btn btn-success" %>
+    </div>
+  </div>
+
+  <div id="checkbox_questions">
+    <%= f.fields_for :checkbox_questions do |checkbox_question| %>
+      <%= render 'checkbox_question_fields', f: checkbox_question %>
+    <% end %>
+    <div class="links mb-1">
+      <%= link_to_add_association 'Add Checkbox', f, :checkbox_questions, class: "btn btn-success" %>
+    </div>
+  </div>
+
+  <div id="dropdowns">
+    <%= f.fields_for :dropdowns do |dropdown| %>
+      <%= render 'dropdown_fields', f: dropdown %>
+    <% end %>
+    <div class="links mb-1">
+      <%= link_to_add_association 'Add Dropdown', f, :dropdowns, class: "btn btn-success" %>
+    </div>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

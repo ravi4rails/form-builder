@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-2 mt-3">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><%= @submission.basic_form.name %></h2>
+        </div>
+        <div class="card-body">
+          <h4>Submitted By <span class="badge badge-secondary"><%= @submission.user.email %></span></h4>
+          <p class="lead">User Response</p>
+          <ul class="list-group">
+            <% @submission.form_values.each do |key, value| %>
+              <li class="list-group-item">
+                <h5><span class="badge badge-secondary"><%= key.titleize %></span> </h5>
+                <h6 style="text-align: justify;"><%= value %></h6>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

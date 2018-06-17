@@ -1,0 +1,22 @@
+<div class="nested-fields">
+  <div class="jumbotron">
+    <div class="row mb-1">
+      <div class="col-md-12">
+        <%= f.text_field :title, value: "Untitled Question?", class: "form-control" %>
+      </div>
+    </div>
+    <div id="mcq" class="mt-2">
+      <%= f.fields_for :dropdown_options do |dropdown_option| %>
+        <%= render 'dropdown_option_fields', f: dropdown_option %>
+      <% end %>
+      <div class="links">
+        <%= link_to_add_association 'Add Options', f, :dropdown_options %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <%= link_to_remove_association "Remove Dropdown", f, class: "btn btn-danger" %>
+      </div>
+    </div>
+  </div>
+</div>

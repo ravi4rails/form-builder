@@ -1,0 +1,10 @@
+<div class="nested-fields">
+  <div id="mcq">
+    <%= f.fields_for :block_fields do |block_field| %>
+      <%= render 'block_field_fields', f: block_field %>
+    <% end %>
+    <div class="links">
+      <%= link_to_add_association 'Add Blockfield', f, :block_fields %>
+    </div>
+  </div>
+</div>

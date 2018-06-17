@@ -1,0 +1,42 @@
+<p id="notice"><%= notice %></p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 offset-1">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title text-center"><%= @custom_form.name %></h4>
+        </div>
+        <div class="card-body">
+          <p class="lead"><%= @custom_form.description %></p>
+          <hr>
+          <% @custom_form.blocks.each do |block| %>
+            <% block.block_fields.each do |block_field| %>
+              <% if block_field.field_type == "Input" %>
+                <input type="text" class="form-control">
+              <% elsif block_field.field_type == "TextArea" %>
+                <textarea class="form-control" rows="6"></textarea>
+              <% elsif block_field.field_type == "TextArea" %>
+              <% elsif %>
+              <% elsif %>
+              <% elsif %>
+              <% elsif %>
+              <% end %>
+              <div class="form-group">
+                <label><%= block_field.name %> : <%= block_field.label %></label>
+                <% if block_field.is_required %>
+                  <<%= block_field.field_type %> class="form-control" required="true">  </<%= block_field.field_type %>>
+                <% else %> 
+                  <<%= block_field.field_type %> class="form-control">  </<%= block_field.field_type %>>                
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<%= link_to 'Edit', edit_custom_form_path(@custom_form) %> |
+<%= link_to 'Back', custom_forms_path %>

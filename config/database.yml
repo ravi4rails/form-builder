@@ -1,0 +1,19 @@
+default: &default
+  adapter:  postgresql
+  host:     localhost
+  encoding: unicode
+  pool:     5
+  username: postgres
+  password: 123456
+
+development:
+  <<: *default
+  database: form_builder_dev
+
+test:
+  <<: *default
+  database: form_builder_prod
+
+production:
+  <<: *default
+  database: form_builder_test

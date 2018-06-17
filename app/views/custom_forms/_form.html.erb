@@ -1,0 +1,36 @@
+<%= form_with(model: custom_form, local: true) do |f| %>
+  <% if custom_form.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(custom_form.errors.count, "error") %> prohibited this custom_form from being saved:</h2>
+
+      <ul>
+      <% custom_form.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, id: :custom_form_name, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :description %>
+    <%= f.text_area :description, id: :custom_form_description, class: "form-control" %>
+  </div>
+
+  <div id="blocks">
+    <%= f.fields_for :blocks do |block| %>
+      <%= render 'block_fields', f: block %>
+    <% end %>
+    <div class="links mb-1">
+      <%= link_to_add_association 'Add Block', f, :blocks, class: "btn btn-success" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.submit class: "btn btn-success" %>
+  </div>
+<% end %>
