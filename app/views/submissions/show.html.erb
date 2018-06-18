@@ -10,10 +10,20 @@
           <p class="lead">User Response</p>
           <ul class="list-group">
             <% @submission.form_values.each do |key, value| %>
-              <li class="list-group-item">
-                <h5><span class="badge badge-secondary"><%= key.titleize %></span> </h5>
-                <h6 style="text-align: justify;"><%= value %></h6>
-              </li>
+              <% if @submission.form_values[key].class == Array %>
+                <li class="list-group-item">
+                  <h5><span class="badge badge-secondary"><%= key.titleize %></span> </h5>
+                  <% val_array = @submission.form_values[key].reject {|c| c.empty? }%>
+                  <% val_array.each do |val|%>
+                    <h6 style="text-align: justify;"><%= val %></h6>
+                  <% end %>
+                </li>
+              <% else %>
+                <li class="list-group-item">
+                  <h5><span class="badge badge-secondary"><%= key.titleize %></span> </h5>
+                  <h6 style="text-align: justify;"><%= value %></h6>
+                </li>
+              <% end %>
             <% end %>
           </ul>
         </div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180617183322) do
+ActiveRecord::Schema.define(version: 20180618055534) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,8 @@ ActiveRecord::Schema.define(version: 20180617183322) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_required"
+    t.bigint "basic_form_id"
+    t.index ["basic_form_id"], name: "index_checkbox_questions_on_basic_form_id"
     t.index ["feedback_form_id"], name: "index_checkbox_questions_on_feedback_form_id"
   end
 
@@ -198,5 +200,6 @@ ActiveRecord::Schema.define(version: 20180617183322) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "checkbox_questions", "basic_forms"
   add_foreign_key "multiple_choices", "basic_forms"
 end

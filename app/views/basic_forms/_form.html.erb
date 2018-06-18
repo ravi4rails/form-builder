@@ -39,6 +39,15 @@
     </div>
   </div>
 
+  <div id="checkbox_questions">
+    <%= f.fields_for :checkbox_questions do |checkbox_question| %>
+      <%= render 'checkbox_question_fields', f: checkbox_question %>
+    <% end %>
+    <div class="links mb-1">
+      <%= link_to_add_association 'Add Checkbox', f, :checkbox_questions, class: "btn btn-success" %>
+    </div>
+  </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>

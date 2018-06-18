@@ -54,6 +54,17 @@
                 <% end %>
               </div>
             <% end %>
+            <% @basic_form.checkbox_questions.each do |checkbox_question| %>
+              <div class="form-group">
+                <label><%= checkbox_question.question %></label>
+                <%= f.collection_check_boxes checkbox_question.question, checkbox_question.checkbox_options, :option, :option do |b| %>
+                  <div class="collection-check-box">
+                    <%= b.check_box %>
+                    <%= b.label %>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
             <%= f.submit "Submit Response", class: "btn btn-success" %>
           <% end %>
           <%= link_to 'Back', @basic_form %>
