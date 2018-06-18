@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   resources :submissions, only: [:index, :show]
-
-  devise_for :users
+    devise_for :users, controllers: {
+      sessions: 'users/sessions'
+    }
+   
   resources :basic_forms do 
     member do 
       get :preview_form

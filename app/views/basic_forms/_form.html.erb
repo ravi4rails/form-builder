@@ -48,6 +48,15 @@
     </div>
   </div>
 
+  <div id="dropdowns">
+    <%= f.fields_for :dropdowns do |dropdown| %>
+      <%= render 'dropdown_fields', f: dropdown %>
+    <% end %>
+    <div class="links mb-1">
+      <%= link_to_add_association 'Add Dropdown', f, :dropdowns, class: "btn btn-success" %>
+    </div>
+  </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>

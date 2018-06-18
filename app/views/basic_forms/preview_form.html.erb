@@ -43,6 +43,7 @@
                 <% end %>
               </div>
             <% end %>
+
             <% @basic_form.multiple_choices.each do |multiple_choice| %>
               <div class="form-group">
                 <label><%= multiple_choice.question %></label>
@@ -54,6 +55,7 @@
                 <% end %>
               </div>
             <% end %>
+
             <% @basic_form.checkbox_questions.each do |checkbox_question| %>
               <div class="form-group">
                 <label><%= checkbox_question.question %></label>
@@ -65,6 +67,14 @@
                 <% end %>
               </div>
             <% end %>
+
+            <% @basic_form.dropdowns.each do |dropdown| %>
+              <div class="form-group">
+                <label><%= dropdown.title %></label><br>
+                <%= f.select dropdown.title, options_for_select(dropdown.dropdown_options.map{|dop| [dop.option]}), {prompt: "Select City"}, {class: "form-control"}%>
+              </div>
+            <% end %>
+
             <%= f.submit "Submit Response", class: "btn btn-success" %>
           <% end %>
           <%= link_to 'Back', @basic_form %>
