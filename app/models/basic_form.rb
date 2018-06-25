@@ -1,4 +1,5 @@
 class BasicForm < ApplicationRecord
+  searchkick
   has_many :form_blocks, inverse_of: :basic_form
   has_many :multiple_choices, inverse_of: :basic_form 
   has_many :checkbox_questions, inverse_of: :basic_form

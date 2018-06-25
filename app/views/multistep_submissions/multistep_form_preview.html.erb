@@ -1,0 +1,107 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title text-center"><%= @multistep_form.name %></h5>
+        </div>
+        <div class="card-body">
+          <p class="lead"><%= @multistep_form.description %></p>
+          <div class="form-step-group text-center">
+            <%= link_to form_preview_path(form_id: @multistep_form.id),class: "btn btn-primary" do %>
+              <p class="text-center">Default <br>Step</p>
+            <% end %>
+            <% i = 0 %>
+            <% @multistep_form.form_steps.each do |step| %>
+              <%= link_to form_preview_path(form_id: @multistep_form.id, step: step.name),class: "btn btn-primary" do %>
+                <p class="text-center">Step <%= i += 1 %><br><%= step.name %></p>
+              <% end %>
+            <% end %>
+          </div>
+          <% if params[:step].present? %>
+            <div class="jumbotron mt-4">
+              <h5 class="text-center"><%= @step.name %></h5>
+              <%= form_for :test, url: :root, method: :get do |f| %>
+                <% @step.form_blocks.each do |form_block| %>
+                  <div class="form-group">
+                    <label><%= form_block.label %></label>
+                    <% if form_block.field_type == "input" %>
+                      <% if form_block.is_required == true %>
+                        <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
+                      <% else %>
+                        <%= f.text_field form_block.label.downcase, class: "form-control" %>
+                      <% end %>
+                    <% elsif form_block.field_type == "email" %> 
+                      <% if form_block.is_required == true %>
+                        <%= f.email_field form_block.label.downcase, class: "form-control", required: true %>
+                      <% else %>
+                        <%= f.email_field form_block.label.downcase, class: "form-control" %>
+                      <% end %> 
+                    <% elsif form_block.field_type == "textarea" %>
+                      <% if form_block.is_required == true %>
+                        <%= f.text_area form_block.label.downcase, class: "form-control", rows: "5", required: true %>
+                      <% else %>
+                        <%= f.text_area form_block.label.downcase, class: "form-control", rows: "5" %>
+                      <% end %>
+                    <% elsif form_block.field_type == "file" %>
+                      <% if form_block.is_required == true %>
+                        <%= f.file_field form_block.label.downcase, required: true %>
+                      <% else %>
+                        <%= f.file_field form_block.label.downcase %>
+                      <% end %>
+                    <% end %>
+                  </div>
+                <% end %>
+                <% previous_step = @multistep_form.previous_step @step.name %>
+                <%= link_to "Previous", form_preview_path(form_id: @multistep_form.id, step: previous_step), class: "btn btn-success" %>
+                <%= f.submit "Save #{@step.name}", class: "btn btn-success" %>
+                <% next_step = @multistep_form.next_step @step.name %>
+                <%= link_to "Next", form_preview_path(form_id: @multistep_form.id, step: next_step), class: "btn btn-success" %>
+              <% end %>
+            </div>
+          <% else %>
+            <% @default_step = FormStep.find_by(name: @multistep_form.current_step) %>
+            <div class="jumbotron mt-4">
+              <h5 class="text-center"><%= @default_step.name %></h5>
+              <%= form_for :test, url: :root, method: :get do |f| %>
+                <% @default_step.form_blocks.each do |form_block| %>
+                  <div class="form-group">
+                    <label><%= form_block.label %></label>
+                    <% if form_block.field_type == "input" %>
+                      <% if form_block.is_required == true %>
+                        <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
+                      <% else %>
+                        <%= f.text_field form_block.label.downcase, class: "form-control" %>
+                      <% end %>
+                    <% elsif form_block.field_type == "email" %> 
+                      <% if form_block.is_required == true %>
+                        <%= f.email_field form_block.label.downcase, class: "form-control", required: true %>
+                      <% else %>
+                        <%= f.email_field form_block.label.downcase, class: "form-control" %>
+                      <% end %> 
+                    <% elsif form_block.field_type == "textarea" %>
+                      <% if form_block.is_required == true %>
+                        <%= f.text_area form_block.label.downcase, class: "form-control", rows: "5", required: true %>
+                      <% else %>
+                        <%= f.text_area form_block.label.downcase, class: "form-control", rows: "5" %>
+                      <% end %>
+                    <% elsif form_block.field_type == "file" %>
+                      <% if form_block.is_required == true %>
+                        <%= f.file_field form_block.label.downcase, required: true %>
+                      <% else %>
+                        <%= f.file_field form_block.label.downcase %>
+                      <% end %>
+                    <% end %>
+                  </div>
+                <% end %>
+                <%= link_to "Previous", "", class: "btn btn-success" %>
+                <%= f.submit "Save #{@default_step.name}", class: "btn btn-success" %>
+                <%= link_to "Next", "", class: "btn btn-success" %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

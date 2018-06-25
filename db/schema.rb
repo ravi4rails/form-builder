@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180618224909) do
+ActiveRecord::Schema.define(version: 20180625064002) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20180618224909) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_multistep_form"
   end
 
   create_table "block_fields", force: :cascade do |t|
@@ -105,7 +106,9 @@ ActiveRecord::Schema.define(version: 20180618224909) do
     t.integer "basic_form_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "form_step_id"
     t.index ["basic_form_id"], name: "index_form_blocks_on_basic_form_id"
+    t.index ["form_step_id"], name: "index_form_blocks_on_form_step_id"
   end
 
   create_table "form_fields", force: :cascade do |t|
@@ -116,6 +119,15 @@ ActiveRecord::Schema.define(version: 20180618224909) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["form_id"], name: "index_form_fields_on_form_id"
+  end
+
+  create_table "form_steps", force: :cascade do |t|
+    t.bigint "multistep_form_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "step_number"
+    t.string "name"
+    t.index ["multistep_form_id"], name: "index_form_steps_on_multistep_form_id"
   end
 
   create_table "forms", force: :cascade do |t|
@@ -143,6 +155,13 @@ ActiveRecord::Schema.define(version: 20180618224909) do
     t.bigint "basic_form_id"
     t.index ["basic_form_id"], name: "index_multiple_choices_on_basic_form_id"
     t.index ["feedback_form_id"], name: "index_multiple_choices_on_feedback_form_id"
+  end
+
+  create_table "multistep_forms", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "paragraph_questions", force: :cascade do |t|
@@ -185,6 +204,16 @@ ActiveRecord::Schema.define(version: 20180618224909) do
     t.index ["user_id"], name: "index_user_field_values_on_user_id"
   end
 
+  create_table "user_response_values", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "form_block_id"
+    t.string "form_block_value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["form_block_id"], name: "index_user_response_values_on_form_block_id"
+    t.index ["user_id"], name: "index_user_response_values_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -204,5 +233,9 @@ ActiveRecord::Schema.define(version: 20180618224909) do
 
   add_foreign_key "checkbox_questions", "basic_forms"
   add_foreign_key "dropdowns", "basic_forms"
+  add_foreign_key "form_blocks", "form_steps"
+  add_foreign_key "form_steps", "multistep_forms"
   add_foreign_key "multiple_choices", "basic_forms"
+  add_foreign_key "user_response_values", "form_blocks"
+  add_foreign_key "user_response_values", "users"
 end

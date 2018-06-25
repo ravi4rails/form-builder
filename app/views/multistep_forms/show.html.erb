@@ -1,0 +1,16 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @multistep_form.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @multistep_form.description %>
+</p>
+
+<%= link_to 'Edit', edit_multistep_form_path(@multistep_form) %> |
+<%= link_to 'Back', multistep_forms_path %> | 
+<%= link_to 'Form Preview', form_preview_path(form_id: @multistep_form.id) %>
+

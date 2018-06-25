@@ -57,3 +57,5 @@ gem "cocoon"
 gem 'bootstrap', '~> 4.1.1'
 gem "font-awesome-rails"
 gem 'devise'
+gem 'searchkick'
+gem 'wicked'

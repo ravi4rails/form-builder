@@ -21,6 +21,17 @@
     <%= f.text_area :description, id: :basic_form_description, class: "form-control", rows: "5" %>
   </div>
 
+ <!--  <div class="form-group">
+    <%#= f.check_box :is_multistep_form, id: :basic_form_is_multistep_form %>
+    <%#= f.label :is_multistep_form? %>
+  </div>
+
+  <div id="multistep_block" style="display:none;">
+    <div class="jumbotron">
+      <h5 class="text-center">This is multistep form </h5>
+    </div>
+  </div> -->
+
   <div id="form_blocks" class="mt-3">
     <%= f.fields_for :form_blocks do |form_block| %>
       <%= render 'form_block_fields', f: form_block %>
@@ -61,3 +72,14 @@
     <%= f.submit %>
   </div>
 <% end %>
+
+
+<!-- <script>
+  $("#basic_form_is_multistep_form").on('change', function(){
+    if ($("#basic_form_is_multistep_form").is(":checked")) {
+      $("#multistep_block").show();
+    } else {
+      $("#multistep_block").hide();      
+    }
+  });
+</script> -->

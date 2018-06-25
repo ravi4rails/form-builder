@@ -6,4 +6,5 @@ class User < ApplicationRecord
 
   has_many :submissions
   has_many :user_field_values
+  has_many :user_response_values
 end

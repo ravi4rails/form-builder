@@ -1,0 +1,36 @@
+<%= form_with(model: multistep_form, local: true) do |f| %>
+  <% if multistep_form.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(multistep_form.errors.count, "error") %> prohibited this multistep_form from being saved:</h2>
+
+      <ul>
+      <% multistep_form.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, id: :multistep_form_name, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :description %>
+    <%= f.text_area :description, id: :multistep_form_description, class: "form-control", rows: "5" %>
+  </div>
+
+  <div id="form_steps" class="mt-3">
+    <%= f.fields_for :form_steps do |form_step| %>
+      <%= render 'form_step_fields', f: form_step %>
+    <% end %>
+    <div class="links mb-1">
+      <%= link_to_add_association 'Add Step', f, :form_steps, class: "btn btn-success" %>
+    </div>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
