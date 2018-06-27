@@ -21,50 +21,26 @@
     <%= f.text_area :description, id: :basic_form_description, class: "form-control", rows: "5" %>
   </div>
 
- <!--  <div class="form-group">
-    <%#= f.check_box :is_multistep_form, id: :basic_form_is_multistep_form %>
-    <%#= f.label :is_multistep_form? %>
+  <div class="form-group">
+    <%= f.check_box :is_multistep_form, id: :basic_form_is_multistep_form %>
+    <%= f.label :is_multistep_form? %>
   </div>
 
   <div id="multistep_block" style="display:none;">
-    <div class="jumbotron">
-      <h5 class="text-center">This is multistep form </h5>
-    </div>
-  </div> -->
-
-  <div id="form_blocks" class="mt-3">
-    <%= f.fields_for :form_blocks do |form_block| %>
-      <%= render 'form_block_fields', f: form_block %>
+    <%= f.fields_for :form_steps do |form_step| %>
+      <%= render 'form_step_fields', f: form_step %>
     <% end %>
     <div class="links mb-1">
-      <%= link_to_add_association 'Add Block', f, :form_blocks, class: "btn btn-success" %>
-    </div>
-  </div>
-  
-  <div id="multiple_choices">
-    <%= f.fields_for :multiple_choices do |multiple_choice| %>
-      <%= render 'multiple_choice_fields', f: multiple_choice %>
-    <% end %>
-    <div class="links mb-1">
-      <%= link_to_add_association 'Add Multiple', f, :multiple_choices, class: "btn btn-success" %>
+      <%= link_to_add_association 'Add Step', f, :form_steps, class: "btn btn-success" %>
     </div>
   </div>
 
-  <div id="checkbox_questions">
-    <%= f.fields_for :checkbox_questions do |checkbox_question| %>
-      <%= render 'checkbox_question_fields', f: checkbox_question %>
+  <div id="form_steps" class="mt-3">
+    <%= f.fields_for :form_steps do |form_step| %>
+      <%= render 'form_step_fields', f: form_step %>
     <% end %>
     <div class="links mb-1">
-      <%= link_to_add_association 'Add Checkbox', f, :checkbox_questions, class: "btn btn-success" %>
-    </div>
-  </div>
-
-  <div id="dropdowns">
-    <%= f.fields_for :dropdowns do |dropdown| %>
-      <%= render 'dropdown_fields', f: dropdown %>
-    <% end %>
-    <div class="links mb-1">
-      <%= link_to_add_association 'Add Dropdown', f, :dropdowns, class: "btn btn-success" %>
+      <%#= link_to_add_association 'Add Step', f, :form_steps, class: "btn btn-success" %>
     </div>
   </div>
 
@@ -74,12 +50,14 @@
 <% end %>
 
 
-<!-- <script>
+<script>
   $("#basic_form_is_multistep_form").on('change', function(){
     if ($("#basic_form_is_multistep_form").is(":checked")) {
       $("#multistep_block").show();
+      $("#form_steps").hide();
     } else {
-      $("#multistep_block").hide();      
+      $("#multistep_block").hide();
+      $("#form_steps").show();      
     }
   });
-</script> -->
+</script>

@@ -21,8 +21,17 @@
           <% if params[:step].present? %>
             <div class="jumbotron mt-4">
               <h5 class="text-center"><%= @step.name %></h5>
-              <%= form_for :test, url: :root, method: :get do |f| %>
+              <%= form_for :user_response, url: :save_multiplestep_form, method: :post do |f| %>
+                <% if params[:submission_id].present? %>
+                  <%= f.hidden_field :submission_id, value: params[:submission_id]%>
+                <% end %>
+                <%= f.hidden_field :multistep_form_id, value: @multistep_form.id %>
+                <% if user_signed_in? %>
+                  <%= f.hidden_field :user_id, value: current_user.id %>
+                <% end %>
+                <%= f.hidden_field :step_name, value: @step.name %>
                 <% @step.form_blocks.each do |form_block| %>
+                  <%= f.hidden_field "form_block_#{form_block.id}", value: form_block.id %>
                   <div class="form-group">
                     <label><%= form_block.label %></label>
                     <% if form_block.field_type == "input" %>
@@ -63,8 +72,17 @@
             <% @default_step = FormStep.find_by(name: @multistep_form.current_step) %>
             <div class="jumbotron mt-4">
               <h5 class="text-center"><%= @default_step.name %></h5>
-              <%= form_for :test, url: :root, method: :get do |f| %>
+              <%= form_for :user_response, url: :save_multiplestep_form, method: :post do |f| %>
+                <% if params[:submission_id].present? %>
+                  <%= f.hidden_field :submission_id, value: params[:submission_id]%>
+                <% end %>
+                <%= f.hidden_field :multistep_form_id, value: @multistep_form.id %>
+                <% if user_signed_in? %>
+                  <%= f.hidden_field :user_id, value: current_user.id %>
+                <% end %>
+                <%= f.hidden_field :step_name, value: @default_step.name %>
                 <% @default_step.form_blocks.each do |form_block| %>
+                  <%= f.hidden_field "form_block_#{form_block.id}", value: form_block.id %>
                   <div class="form-group">
                     <label><%= form_block.label %></label>
                     <% if form_block.field_type == "input" %>

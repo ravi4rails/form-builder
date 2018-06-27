@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   resources :multistep_forms
 
   get '/form_preview' => "multistep_submissions#multistep_form_preview"
-
+  post '/save_multiplestep_form' => "multistep_submissions#save_multiplestep_form"
   resources :submissions, only: [:index, :show]
     devise_for :users, controllers: {
       sessions: 'users/sessions'

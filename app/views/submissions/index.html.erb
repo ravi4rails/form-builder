@@ -12,7 +12,11 @@
         <tbody>
           <% @submissions.each do |submission| %>
             <tr>
-              <td><%= submission.basic_form.name %></td>
+              <% if submission.basic_form.present? %>
+                <td><%= submission.basic_form.name %></td>
+              <% else %>
+                <td><%= submission.multistep_form.name %></td>
+              <% end %>
               <td><%= submission.user.email %></td>
               <td><%= link_to "View Response", submission, class: "btn btn-info" %></td>
             </tr>

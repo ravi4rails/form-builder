@@ -3,7 +3,7 @@ class FormBlock < ApplicationRecord
   belongs_to :basic_form, optional: true
   belongs_to :form_step, optional: true
   has_many :user_response_values
-  FIELDTYPE = ["input", "textarea", "file", "email"]
+  FIELDTYPE = ["input", "textarea", "file", "email", "password", "number"]
 end
 
 # fbs = FormBlock.search("last name")

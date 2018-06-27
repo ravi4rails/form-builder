@@ -1,10 +1,10 @@
 class MultistepForm < ApplicationRecord
   
-  attr_writer :current_step
 
   has_many :form_steps, inverse_of: :multistep_form
   accepts_nested_attributes_for :form_steps, reject_if: :all_blank, allow_destroy: true
 
+  attr_writer :current_step
 
   def steps
     self.form_steps.pluck(:name)

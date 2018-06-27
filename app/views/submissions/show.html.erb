@@ -3,7 +3,13 @@
     <div class="col-md-8 offset-2 mt-3">
       <div class="card">
         <div class="card-header">
-          <h2 class="card-title"><%= @submission.basic_form.name %></h2>
+          <h2 class="card-title">
+            <% if @submission.basic_form.present? %>
+                <%= @submission.basic_form.name %>
+              <% else %>
+                <%= @submission.multistep_form.name %>
+              <% end %>
+          </h2>
         </div>
         <div class="card-body">
           <h4>Submitted By <span class="badge badge-secondary"><%= @submission.user.email %></span></h4>
