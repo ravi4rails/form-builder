@@ -2,7 +2,7 @@ class BasicForm < ApplicationRecord
   
   attr_writer :current_step
 
-  searchkick
+  # searchkick
   has_many :submissions, dependent: :destroy
   has_many :form_steps, inverse_of: :basic_form 
 

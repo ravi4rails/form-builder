@@ -1,5 +1,5 @@
 class FormBlock < ApplicationRecord
-  searchkick
+  # searchkick
   belongs_to :basic_form, optional: true
   belongs_to :form_step, optional: true
   has_many :user_response_values
