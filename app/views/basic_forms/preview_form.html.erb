@@ -153,6 +153,12 @@
                         <% else %>
                           <%= f.number_field form_block.label.downcase, class: "form-control" %>
                         <% end %>
+                      <% elsif form_block.field_type == "date" %>
+                        <% if form_block.is_required == true %>
+                          <%= f.date_field form_block.label.downcase, required: true %>
+                        <% else %>
+                          <%= f.date_field form_block.label.downcase %>
+                        <% end %>
                       <% elsif form_block.field_type == "file" %>
                         <% if form_block.is_required == true %>
                           <%= f.file_field form_block.label.downcase, required: true %>
