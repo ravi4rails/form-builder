@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     end
     put :sort_blocks, on: :collection
     put :sort_multiple_choices, on: :collection
+    put :sort_checkbox_questions, on: :collection
   end
   resources :custom_forms
   resources :feedback_forms

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180628224635) do
+ActiveRecord::Schema.define(version: 20180629050847) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 20180628224635) do
     t.datetime "updated_at", null: false
     t.boolean "is_required"
     t.integer "form_step_id"
+    t.integer "priority"
     t.index ["feedback_form_id"], name: "index_checkbox_questions_on_feedback_form_id"
   end
 

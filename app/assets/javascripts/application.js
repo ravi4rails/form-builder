@@ -15,6 +15,7 @@
 //= require html5sortable
 //= require form_blocks
 //= require multiple_choices
+//= require checkbox_questions
 //= require cocoon
 //= require popper
 //= require bootstrap

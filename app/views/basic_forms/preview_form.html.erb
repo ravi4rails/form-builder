@@ -87,6 +87,19 @@
                     </div>
                   <% end %>
                 </div>
+                <div class="checkbox-sortable">
+                  <% @step.checkbox_questions.each do |checkbox_question| %>
+                    <div class="form-group sortable-checkbox-questions" data-id="<%= checkbox_question.id %>" style="border:1px solid #00f; padding:2%;background-color: #fff;">
+                      <label><%= checkbox_question.question %></label>
+                      <%= f.collection_check_boxes checkbox_question.question, checkbox_question.checkbox_options, :option, :option do |b| %>
+                        <div class="collection-check-box">
+                          <%= b.check_box %>
+                          <%= b.label %>
+                        </div>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
                 <% if @basic_form.form_steps.count > 1 %>
                   <% previous_step = @basic_form.previous_step @step.name %>
                   <%= link_to "Previous", preview_form_basic_form_path(@basic_form.id, step: previous_step), class: "btn btn-success" %>
@@ -158,6 +171,19 @@
                         <div class="form-group">
                           <%= f.radio_button multiple_choice.question, mcq.option %>
                           <%= f.label mcq.option %>
+                        </div>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+                <div class="checkbox-sortable">
+                  <% @default_step.checkbox_questions.each do |checkbox_question| %>
+                    <div class="form-group sortable-checkbox-questions" data-id="<%= checkbox_question.id %>" style="border:1px solid #00f; padding:2%;background-color: #fff;">
+                      <label><%= checkbox_question.question %></label>
+                      <%= f.collection_check_boxes checkbox_question.question, checkbox_question.checkbox_options, :option, :option do |b| %>
+                        <div class="collection-check-box">
+                          <%= b.check_box %>
+                          <%= b.label %>
                         </div>
                       <% end %>
                     </div>

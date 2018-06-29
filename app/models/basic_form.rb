@@ -1,6 +1,4 @@
 class BasicForm < ApplicationRecord
-  
-
   # searchkick
   has_many :submissions, dependent: :destroy
   has_many :form_steps, inverse_of: :basic_form 
