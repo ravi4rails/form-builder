@@ -1,0 +1,11 @@
+<div class="row">
+  <div class="col-md-5 offset-md-4 sortable">
+    <% if @tasks.any? %>
+      <%= render @tasks %>
+    <% end %>
+    <%= link_to "Create Task", new_task_path, class: "btn btn-primary btn-lg" %>
+  </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>

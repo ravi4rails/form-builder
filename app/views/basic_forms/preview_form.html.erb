@@ -29,60 +29,64 @@
                   <%= f.hidden_field :user_id, value: current_user.id %>
                 <% end %>
                 <%= f.hidden_field :step_name, value: @step.name %>
-                <% @step.form_blocks.each do |form_block| %>
-                  <%= f.hidden_field "form_block_#{form_block.id}", value: form_block.id %>
-                  <div class="form-group">
-                    <label><%= form_block.label %></label>
-                    <% if form_block.field_type == "input" %>
-                      <% if form_block.is_required == true %>
-                        <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
-                      <% else %>
-                        <%= f.text_field form_block.label.downcase, class: "form-control" %>
+                <div class="sortable">
+                  <% @step.form_blocks.each do |form_block| %>
+                    <%= f.hidden_field "form_block_#{form_block.id}", value: form_block.id %>
+                    <div class="form-group sortable-form-block" data-id="<%= form_block.id %>" >
+                      <label><%= form_block.label %></label>
+                      <% if form_block.field_type == "input" %>
+                        <% if form_block.is_required == true %>
+                          <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
+                        <% else %>
+                          <%= f.text_field form_block.label.downcase, class: "form-control" %>
+                        <% end %>
+                      <% elsif form_block.field_type == "email" %> 
+                        <% if form_block.is_required == true %>
+                          <%= f.email_field form_block.label.downcase, class: "form-control", required: true %>
+                        <% else %>
+                          <%= f.email_field form_block.label.downcase, class: "form-control" %>
+                        <% end %> 
+                      <% elsif form_block.field_type == "password" %>
+                        <% if form_block.is_required == true %>
+                          <%= f.password_field form_block.label.downcase, class: "form-control", required: true %>
+                        <% else %>
+                          <%= f.password_field form_block.label.downcase, class: "form-control" %>
+                        <% end %> 
+                      <% elsif form_block.field_type == "textarea" %>
+                        <% if form_block.is_required == true %>
+                          <%= f.text_area form_block.label.downcase, class: "form-control", rows: "5", required: true %>
+                        <% else %>
+                          <%= f.text_area form_block.label.downcase, class: "form-control", rows: "5" %>
+                        <% end %>
+                      <% elsif form_block.field_type == "number" %>
+                        <% if form_block.is_required == true %>
+                          <%= f.number_field form_block.label.downcase, class: "form-control", required: true %>
+                        <% else %>
+                          <%= f.number_field form_block.label.downcase, class: "form-control" %>
+                        <% end %>
+                      <% elsif form_block.field_type == "file" %>
+                        <% if form_block.is_required == true %>
+                          <%= f.file_field form_block.label.downcase, required: true %>
+                        <% else %>
+                          <%= f.file_field form_block.label.downcase %>
+                        <% end %>
                       <% end %>
-                    <% elsif form_block.field_type == "email" %> 
-                      <% if form_block.is_required == true %>
-                        <%= f.email_field form_block.label.downcase, class: "form-control", required: true %>
-                      <% else %>
-                        <%= f.email_field form_block.label.downcase, class: "form-control" %>
-                      <% end %> 
-                    <% elsif form_block.field_type == "password" %>
-                      <% if form_block.is_required == true %>
-                        <%= f.password_field form_block.label.downcase, class: "form-control", required: true %>
-                      <% else %>
-                        <%= f.password_field form_block.label.downcase, class: "form-control" %>
-                      <% end %> 
-                    <% elsif form_block.field_type == "textarea" %>
-                      <% if form_block.is_required == true %>
-                        <%= f.text_area form_block.label.downcase, class: "form-control", rows: "5", required: true %>
-                      <% else %>
-                        <%= f.text_area form_block.label.downcase, class: "form-control", rows: "5" %>
+                    </div>
+                  <% end %>
+                </div>
+                <div class="multiple-choice-sortable">
+                  <% @step.multiple_choices.each do |multiple_choice| %>
+                    <div class="form-group multiple-choice-sortable-form-block" data-id="<%= multiple_choice.id %>" style="border:1px solid #00f; padding:2%;background-color: #fff;">
+                      <label><%= multiple_choice.question %></label>
+                      <% multiple_choice.mcq_options.each do |mcq| %>
+                        <div class="form-group">
+                          <%= f.radio_button multiple_choice.question, mcq.option %>
+                          <%= f.label mcq.option %>
+                        </div>
                       <% end %>
-                    <% elsif form_block.field_type == "number" %>
-                      <% if form_block.is_required == true %>
-                        <%= f.number_field form_block.label.downcase, class: "form-control", required: true %>
-                      <% else %>
-                        <%= f.number_field form_block.label.downcase, class: "form-control" %>
-                      <% end %>
-                    <% elsif form_block.field_type == "file" %>
-                      <% if form_block.is_required == true %>
-                        <%= f.file_field form_block.label.downcase, required: true %>
-                      <% else %>
-                        <%= f.file_field form_block.label.downcase %>
-                      <% end %>
-                    <% end %>
-                  </div>
-                <% end %>
-                <% @step.multiple_choices.each do |multiple_choice| %>
-                  <div class="form-group">
-                    <label><%= multiple_choice.question %></label>
-                    <% multiple_choice.mcq_options.each do |mcq| %>
-                      <div class="form-group">
-                        <%= f.radio_button multiple_choice.question, mcq.option %>
-                        <%= f.label mcq.option %>
-                      </div>
-                    <% end %>
-                  </div>
-                <% end %>
+                    </div>
+                  <% end %>
+                </div>
                 <% if @basic_form.form_steps.count > 1 %>
                   <% previous_step = @basic_form.previous_step @step.name %>
                   <%= link_to "Previous", preview_form_basic_form_path(@basic_form.id, step: previous_step), class: "btn btn-success" %>
@@ -107,43 +111,45 @@
                   <%= f.hidden_field :user_id, value: current_user.id %>
                 <% end %>
                 <%= f.hidden_field :step_name, value: @default_step.name %>
-                <% @default_step.form_blocks.each do |form_block| %>
-                  <%= f.hidden_field "form_block_#{form_block.id}", value: form_block.id %>
-                  <div class="form-group">
-                    <label><%= form_block.label %></label>
-                    <% if form_block.field_type == "input" %>
-                      <% if form_block.is_required == true %>
-                        <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
-                      <% else %>
-                        <%= f.text_field form_block.label.downcase, class: "form-control" %>
+                <div class="sortable">
+                  <% @default_step.form_blocks.each do |form_block| %>
+                    <%= f.hidden_field "form_block_#{form_block.id}", value: form_block.id %>
+                    <div class="form-group sortable-form-block" data-id="<%= form_block.id %>" style="border:1px solid #00f; padding:2%;">
+                      <label><%= form_block.label %></label>
+                      <% if form_block.field_type == "input" %>
+                        <% if form_block.is_required == true %>
+                          <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
+                        <% else %>
+                          <%= f.text_field form_block.label.downcase, class: "form-control" %>
+                        <% end %>
+                      <% elsif form_block.field_type == "email" %> 
+                        <% if form_block.is_required == true %>
+                          <%= f.email_field form_block.label.downcase, class: "form-control", required: true %>
+                        <% else %>
+                          <%= f.email_field form_block.label.downcase, class: "form-control" %>
+                        <% end %> 
+                      <% elsif form_block.field_type == "textarea" %>
+                        <% if form_block.is_required == true %>
+                          <%= f.text_area form_block.label.downcase, class: "form-control", rows: "5", required: true %>
+                        <% else %>
+                          <%= f.text_area form_block.label.downcase, class: "form-control", rows: "5" %>
+                        <% end %>
+                      <% elsif form_block.field_type == "number" %>
+                        <% if form_block.is_required == true %>
+                          <%= f.number_field form_block.label.downcase, class: "form-control", required: true %>
+                        <% else %>
+                          <%= f.number_field form_block.label.downcase, class: "form-control" %>
+                        <% end %>
+                      <% elsif form_block.field_type == "file" %>
+                        <% if form_block.is_required == true %>
+                          <%= f.file_field form_block.label.downcase, required: true %>
+                        <% else %>
+                          <%= f.file_field form_block.label.downcase %>
+                        <% end %>
                       <% end %>
-                    <% elsif form_block.field_type == "email" %> 
-                      <% if form_block.is_required == true %>
-                        <%= f.email_field form_block.label.downcase, class: "form-control", required: true %>
-                      <% else %>
-                        <%= f.email_field form_block.label.downcase, class: "form-control" %>
-                      <% end %> 
-                    <% elsif form_block.field_type == "textarea" %>
-                      <% if form_block.is_required == true %>
-                        <%= f.text_area form_block.label.downcase, class: "form-control", rows: "5", required: true %>
-                      <% else %>
-                        <%= f.text_area form_block.label.downcase, class: "form-control", rows: "5" %>
-                      <% end %>
-                    <% elsif form_block.field_type == "number" %>
-                      <% if form_block.is_required == true %>
-                        <%= f.number_field form_block.label.downcase, class: "form-control", required: true %>
-                      <% else %>
-                        <%= f.number_field form_block.label.downcase, class: "form-control" %>
-                      <% end %>
-                    <% elsif form_block.field_type == "file" %>
-                      <% if form_block.is_required == true %>
-                        <%= f.file_field form_block.label.downcase, required: true %>
-                      <% else %>
-                        <%= f.file_field form_block.label.downcase %>
-                      <% end %>
-                    <% end %>
-                  </div>
-                <% end %>
+                    </div>
+                  <% end %>
+                </div>
                 <% if @basic_form.form_steps.count > 1 %>
                   <% previous_step = @basic_form.previous_step @default_step.name %>
                   <%= link_to "Previous", preview_form_basic_form_path(@basic_form.id, step: previous_step), class: "btn btn-success" %>
@@ -161,3 +167,5 @@
     </div>
   </div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>

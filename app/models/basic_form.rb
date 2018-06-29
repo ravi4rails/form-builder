@@ -1,6 +1,5 @@
 class BasicForm < ApplicationRecord
   
-  attr_writer :current_step
 
   # searchkick
   has_many :submissions, dependent: :destroy
@@ -8,6 +7,7 @@ class BasicForm < ApplicationRecord
 
   accepts_nested_attributes_for :form_steps, reject_if: :all_blank, allow_destroy: true
 
+  attr_writer :current_step
   def steps
     self.form_steps.pluck(:name)
   end

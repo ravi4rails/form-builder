@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  
+  resources :tasks do
+    put :sort, on: :collection
+  end
   resources :multistep_forms
 
   get '/form_preview' => "multistep_submissions#multistep_form_preview"
@@ -16,6 +20,8 @@ Rails.application.routes.draw do
     collection do 
       post :collect_user_response
     end
+    put :sort_blocks, on: :collection
+    put :sort_multiple_choices, on: :collection
   end
   resources :custom_forms
   resources :feedback_forms

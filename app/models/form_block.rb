@@ -4,6 +4,9 @@ class FormBlock < ApplicationRecord
   belongs_to :form_step, optional: true
   has_many :user_response_values
   FIELDTYPE = ["input", "textarea", "file", "email", "password", "number"]
+
+  default_scope { order("priority ASC") }
+  
 end
 
 # fbs = FormBlock.search("last name")

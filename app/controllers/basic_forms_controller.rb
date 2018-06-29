@@ -128,12 +128,6 @@ class BasicFormsController < ApplicationController
     
     @next_step = @basic_form.next_step(@step_name)
 
-    form_block_ids.each do |key, val| 
-      form_block = FormBlock.find(val)
-      lab = form_block.label.downcase
-      user_response_value = @user.user_response_values.create(form_block_id: form_block.id, form_block_value: form_block_values[lab])
-    end
-
     if params[:user_response][:submission_id].present?
       @submission = Submission.find(params[:user_response][:submission_id])
       submission_form_values = @submission.form_values
@@ -141,6 +135,11 @@ class BasicFormsController < ApplicationController
       updated_submission_form_values = form_block_values.merge(submission_form_values)
       respond_to do |format|
         if @submission.update(form_values: updated_submission_form_values)
+          form_block_ids.each do |key, val| 
+            form_block = FormBlock.find(val)
+            lab = form_block.label.downcase
+            user_response_value = @user.user_response_values.create(form_block_id: form_block.id, form_block_value: form_block_values[lab], submission_id: @submission.id)
+          end
           completed_steps = @submission.steps_completed
           if @submission.steps_completed < @basic_form.form_steps.count
             @submission.update(steps_completed: completed_steps+1) 
@@ -156,6 +155,11 @@ class BasicFormsController < ApplicationController
       @submission = Submission.new(user_id: @user.id, basic_form_id: @basic_form.id, form_values: form_block_values)
       respond_to do |format|
         if @submission.save 
+          form_block_ids.each do |key, val| 
+            form_block = FormBlock.find(val)
+            lab = form_block.label.downcase
+            user_response_value = @user.user_response_values.create(form_block_id: form_block.id, form_block_value: form_block_values[lab], submission_id: @submission.id)
+          end
           completed_steps = @submission.steps_completed
           if @submission.steps_completed < @basic_form.form_steps.count
             @submission.update(steps_completed: completed_steps+1) 
@@ -175,6 +179,20 @@ class BasicFormsController < ApplicationController
   def submissions
     @basic_form = BasicForm.find(params[:id])
     @submissions = @basic_form.submissions
+  end
+
+  def sort_blocks
+    params[:order].each do |key,value|
+      FormBlock.find(value[:id]).update_attribute(:priority,value[:position])
+    end
+    render :nothing => true
+  end
+
+  def sort_multiple_choices
+    params[:order].each do |key, value|
+      MultipleChoice.find(value[:id]).update_attribute(:priority, value[:position])
+    end
+    render nothing: true
   end
 
   private

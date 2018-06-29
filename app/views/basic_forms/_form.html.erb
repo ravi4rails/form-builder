@@ -2,7 +2,7 @@
   <% if basic_form.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(basic_form.errors.count, "error") %> prohibited this basic_form from being saved:</h2>
-
+      
       <ul>
       <% basic_form.errors.full_messages.each do |message| %>
         <li><%= message %></li>

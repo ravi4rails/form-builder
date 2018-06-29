@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180627091411) do
+ActiveRecord::Schema.define(version: 20180628224635) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,6 +104,7 @@ ActiveRecord::Schema.define(version: 20180627091411) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "form_step_id"
+    t.integer "priority"
     t.index ["form_step_id"], name: "index_form_blocks_on_form_step_id"
   end
 
@@ -149,6 +150,7 @@ ActiveRecord::Schema.define(version: 20180627091411) do
     t.datetime "updated_at", null: false
     t.boolean "is_required"
     t.integer "form_step_id"
+    t.integer "priority"
     t.index ["feedback_form_id"], name: "index_multiple_choices_on_feedback_form_id"
   end
 
@@ -192,6 +194,14 @@ ActiveRecord::Schema.define(version: 20180627091411) do
     t.index ["user_id"], name: "index_submissions_on_user_id"
   end
 
+  create_table "tasks", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "priority"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "user_field_values", force: :cascade do |t|
     t.string "value"
     t.integer "user_id"
@@ -208,6 +218,7 @@ ActiveRecord::Schema.define(version: 20180627091411) do
     t.string "form_block_value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "submission_id"
     t.index ["form_block_id"], name: "index_user_response_values_on_form_block_id"
     t.index ["user_id"], name: "index_user_response_values_on_user_id"
   end
