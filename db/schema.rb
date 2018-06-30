@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180629050847) do
+ActiveRecord::Schema.define(version: 20180630064751) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -106,6 +106,7 @@ ActiveRecord::Schema.define(version: 20180629050847) do
     t.datetime "updated_at", null: false
     t.bigint "form_step_id"
     t.integer "priority"
+    t.string "placeholder_text"
     t.index ["form_step_id"], name: "index_form_blocks_on_form_step_id"
   end
 
