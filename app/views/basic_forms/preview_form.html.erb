@@ -29,6 +29,8 @@
                   <%= f.hidden_field :user_id, value: current_user.id %>
                 <% end %>
                 <%= f.hidden_field :step_name, value: @step.name %>
+                <h5 class="mt2">Simple Input blocks</h5>
+                <hr>
                 <div class="sortable">
                   <% @step.form_blocks.each do |form_block| %>
                     <%= f.hidden_field "form_block_#{form_block.id}", value: form_block.id %>
@@ -74,6 +76,8 @@
                     </div>
                   <% end %>
                 </div>
+                <h5 class="mt2">Multple choice questions</h5>
+                <hr>
                 <div class="multiple-choice-sortable">
                   <% @step.multiple_choices.each do |multiple_choice| %>
                     <div class="form-group multiple-choice-sortable-form-block" data-id="<%= multiple_choice.id %>" style="border:1px solid #00f; padding:2%;background-color: #fff;">
@@ -87,6 +91,8 @@
                     </div>
                   <% end %>
                 </div>
+                <h5 class="mt2">Variable choice questions</h5>
+                <hr>
                 <div class="checkbox-sortable">
                   <% @step.checkbox_questions.each do |checkbox_question| %>
                     <div class="form-group sortable-checkbox-questions" data-id="<%= checkbox_question.id %>" style="border:1px solid #00f; padding:2%;background-color: #fff;">

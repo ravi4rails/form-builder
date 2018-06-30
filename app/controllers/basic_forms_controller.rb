@@ -173,7 +173,6 @@ class BasicFormsController < ApplicationController
       end
     end
 
-
   end
 
   def submissions
