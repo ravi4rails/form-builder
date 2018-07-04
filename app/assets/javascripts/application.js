@@ -13,9 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require html5sortable
-//= require form_blocks
-//= require multiple_choices
-//= require checkbox_questions
+//= require blocks
 //= require cocoon
 //= require popper
 //= require bootstrap
