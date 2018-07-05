@@ -20,6 +20,8 @@
         </tbody>
       </table>
       <%= link_to "Back", basic_form_path(@basic_form), class: "btn btn-secondary" %>
+      <%= link_to "Download Response in CSV", submissions_basic_form_path(@basic_form, format: 'csv'), class: "btn btn-secondary" %>
+      <%= link_to "Download Response in Excel", basic_form_path(@basic_form), class: "btn btn-secondary" %>
     </div>
   </div>
 </div>

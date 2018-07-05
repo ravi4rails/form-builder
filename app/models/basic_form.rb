@@ -1,3 +1,5 @@
+require 'csv'
+
 class BasicForm < ApplicationRecord
   # searchkick
   has_many :submissions, dependent: :destroy
@@ -48,6 +50,29 @@ class BasicForm < ApplicationRecord
 
   def last_step
     current_step = self.form_steps.pluck(:name).last
+  end
+
+  def self.to_csv submissions
+    attributes = submissions.map {|submission| submission.form_values }
+    
+    attributes.each do |atr|
+      atr.each do |key, val|
+        if atr[key].class == Array
+          val_array = atr[key].reject {|c| c.empty? }
+          atr[key] = val_array
+        end 
+      end
+    end
+    
+    column_names = attributes.first.keys
+
+    CSV.generate do |csv|
+      csv << column_names
+      attributes.each do |attribute|
+        csv << attribute.values
+      end
+    end
+
   end
 
 end

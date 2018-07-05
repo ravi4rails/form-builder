@@ -149,6 +149,12 @@ class BasicFormsController < ApplicationController
   def submissions
     @basic_form = BasicForm.find(params[:id])
     @submissions = @basic_form.submissions
+
+    respond_to do |format|
+      format.html
+      format.csv {send_data BasicForm.to_csv(@submissions), filename: "Submission-#{BasicForm.name}.csv"}
+    end
+
   end
 
   def sort_blocks

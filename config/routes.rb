@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     member do 
       get :preview_form
       get :submissions
+      get :submission_data_to_csv
     end
     collection do 
       post :collect_user_response
