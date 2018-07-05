@@ -1,9 +1,21 @@
 class BasicForm < ApplicationRecord
   # searchkick
   has_many :submissions, dependent: :destroy
+  has_many :form_blocks, inverse_of: :basic_form
   has_many :form_steps, inverse_of: :basic_form 
 
   accepts_nested_attributes_for :form_steps, reject_if: :all_blank, allow_destroy: true
+
+  accepts_nested_attributes_for :form_blocks, reject_if: :all_blank, allow_destroy: true
+
+  has_many :multiple_choices, inverse_of: :form_step 
+  has_many :checkbox_questions, inverse_of: :form_step
+  has_many :dropdowns, inverse_of: :form_step
+  accepts_nested_attributes_for :multiple_choices, reject_if: :all_blank, allow_destroy: true
+  
+  accepts_nested_attributes_for :checkbox_questions, reject_if: :all_blank, allow_destroy: true
+
+  accepts_nested_attributes_for :dropdowns, reject_if: :all_blank, allow_destroy: true
 
   attr_writer :current_step
   def steps

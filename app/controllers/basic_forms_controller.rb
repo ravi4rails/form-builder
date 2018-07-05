@@ -70,35 +70,6 @@ class BasicFormsController < ApplicationController
   end
 
   def collect_user_response
-    # form_block_ids = {}
-    # @basic_form = BasicForm.find(params[:user_response][:basic_form_id])
-    # @user = User.find(params[:user_response][:user_id])
-    # total_response_value = params[:user_response]
-    # submission_values = {"user_id" => params[:user_response][:user_id], "basic_form_id" => params[:user_response][:basic_form_id]}
-    # form_block_values = total_response_value.dup.delete_if {|k,_| submission_values.key?(k)}
-
-    # form_block_values.each {|k, v| puts form_block_ids[k] = v if k.include? "form_block_"}
-
-    # puts form_block_ids
-
-    # form_block_values = total_response_value.dup.delete_if {|k,_| submission_values.merge(form_block_ids).key?(k)}
-
-    # puts form_block_values
-
-    # form_block_ids.each do |key, val| 
-    #   form_block = FormBlock.find(val)
-    #   lab = form_block.label.downcase
-    #   user_response_value = @user.user_response_values.create(form_block_id: form_block.id, form_block_value: form_block_values[lab])
-    # end
-
-    # form_block_ids = @basic_form.form_blocks.ids
-    # @submission = Submission.new(user_id: @user.id, basic_form_id: @basic_form.id, form_values: form_block_values)
-    # respond_to do |format|
-    #   if @submission.save 
-    #     format.html { redirect_to @basic_form, notice: 'your response has been collected successfully. Thanks for responding :)' }
-    #   end
-    # end
-
 
     form_block_ids = {}
     

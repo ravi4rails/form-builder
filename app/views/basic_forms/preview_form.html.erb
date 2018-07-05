@@ -7,323 +7,459 @@
         </div>
         <div class="card-body">
           <p class="lead"><%= @basic_form.description %></p>
-          <div class="form-step-group text-center">
-            <% if @basic_form.form_steps.count > 1 %>
-              <% i = 0 %>
-              <% @basic_form.form_steps.each do |step| %>
-                <%= link_to preview_form_basic_form_path(@basic_form.id, step: step.name),class: "btn btn-primary mb-1" do %>
-                  <p class="text-center">Step <%= i += 1 %><br><%= step.name %></p>
+          <% if @basic_form.is_multistep_form == true %>
+            <div class="form-step-group text-center">
+              <% if @basic_form.form_steps.count > 1 %>
+                <% i = 0 %>
+                <% @basic_form.form_steps.each do |step| %>
+                  <%= link_to preview_form_basic_form_path(@basic_form.id, step: step.name),class: "btn btn-primary mb-1" do %>
+                    <p class="text-center">Step <%= i += 1 %><br><%= step.name %></p>
+                  <% end %>
                 <% end %>
               <% end %>
+            </div>
+            <% if params[:step].present? %>
+              <div class="jumbotron mt-4">
+                <h5 class="text-center"><%= @step.name %></h5>
+                <%= form_for :user_response, url: :collect_user_response_basic_forms, method: :post do |f| %>
+                  <% if params[:submission_id].present? %>
+                    <%= f.hidden_field :submission_id, value: params[:submission_id]%>
+                  <% end %>
+                  <%= f.hidden_field :basic_form_id, value: @basic_form.id %>
+                  <% if user_signed_in? %>
+                    <%= f.hidden_field :user_id, value: current_user.id %>
+                  <% end %>
+                  <%= f.hidden_field :step_name, value: @step.name %>
+                  <% if @step.form_blocks.present?%>
+                    <h5 class="mt2">Simple Input blocks</h5>
+                    <hr>
+                    <div class="sortable">
+                      <% @step.form_blocks.each do |form_block| %>
+                        <%= f.hidden_field "form_block_#{form_block.id}", value: form_block.id %>
+                        <div class="form-group sortable-form-block" data-id="<%= form_block.id %>" style="border:1px solid #00f; padding:2%;">
+                          <label><%= form_block.label %></label>
+                          <% if form_block.field_type == "input" %>
+                            <% if form_block.is_required == true %>
+                              <% if form_block.placeholder_text.present? %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
+                              <% else %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
+                              <% end %>
+                            <% else %>
+                              <% if form_block.placeholder_text.present? %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
+                              <% else %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control" %>
+                              <% end %>
+                            <% end %>
+                          <% elsif form_block.field_type == "email" %> 
+                            <% if form_block.is_required == true %>
+                              <% if form_block.placeholder_text.present? %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
+                              <% else %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
+                              <% end %>
+                            <% else %>
+                              <% if form_block.placeholder_text.present? %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
+                              <% else %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control" %>
+                              <% end %>
+                            <% end %> 
+                          <% elsif form_block.field_type == "password" %>
+                            <% if form_block.is_required == true %>
+                              <% if form_block.placeholder_text.present? %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
+                              <% else %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
+                              <% end %>
+                            <% else %>
+                              <% if form_block.placeholder_text.present? %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
+                              <% else %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control" %>
+                              <% end %>
+                            <% end %> 
+                          <% elsif form_block.field_type == "textarea" %>
+                            <% if form_block.is_required == true %>
+                              <% if form_block.placeholder_text.present? %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text, rows: "5" %>
+                              <% else %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control", required: true, rows: "5" %>
+                              <% end %>
+                            <% else %>
+                              <% if form_block.placeholder_text.present? %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text, rows: "5" %>
+                              <% else %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control", rows: "5" %>
+                              <% end %>
+                            <% end %>
+                          <% elsif form_block.field_type == "number" %>
+                            <% if form_block.is_required == true %>
+                              <% if form_block.placeholder_text.present? %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
+                              <% else %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
+                              <% end %>
+                            <% else %>
+                              <% if form_block.placeholder_text.present? %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
+                              <% else %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control" %>
+                              <% end %>
+                            <% end %>
+                          <% elsif form_block.field_type == "date" %>
+                            <% if form_block.is_required == true %>
+                              <% if form_block.placeholder_text.present? %>
+                                <%= f.date_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
+                              <% else %>
+                                <%= f.date_field form_block.label.downcase, class: "form-control", required: true %>
+                              <% end %>
+                            <% else %>
+                              <% if form_block.placeholder_text.present? %>
+                                <%= f.date_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
+                              <% else %>
+                                <%= f.date_field form_block.label.downcase, class: "form-control" %>
+                              <% end %>
+                            <% end %>
+                          <% elsif form_block.field_type == "file" %>
+                            <% if form_block.is_required == true %>
+                              <%= f.file_field form_block.label.downcase, required: true %>
+                            <% else %>
+                              <%= f.file_field form_block.label.downcase %>
+                            <% end %>
+                          <% end %>
+                        </div>
+                      <% end %>
+                    </div>
+                  <% end %>
+                  <% if @step.multiple_choices.present?%>
+                    <h5 class="mt2">Multple choice questions</h5>
+                    <hr>
+                    <div class="multiple-choice-sortable">
+                      <% @step.multiple_choices.each do |multiple_choice| %>
+                        <div class="form-group multiple-choice-sortable-form-block" data-id="<%= multiple_choice.id %>" style="border:1px solid #00f; padding:2%;background-color: #fff;">
+                          <label><%= multiple_choice.question %></label>
+                          <% multiple_choice.mcq_options.each do |mcq| %>
+                            <div class="form-group">
+                              <%= f.radio_button multiple_choice.question, mcq.option %>
+                              <%= f.label mcq.option %>
+                            </div>
+                          <% end %>
+                        </div>
+                      <% end %>
+                    </div>
+                  <% end %>
+                  <% if @step.checkbox_questions.present? %>
+                    <h5 class="mt2">Variable choice questions</h5>
+                    <hr>
+                    <div class="checkbox-sortable">
+                      <% @step.checkbox_questions.each do |checkbox_question| %>
+                        <div class="form-group sortable-checkbox-questions" data-id="<%= checkbox_question.id %>" style="border:1px solid #00f; padding:2%;background-color: #fff;">
+                          <label><%= checkbox_question.question %></label>
+                          <%= f.collection_check_boxes checkbox_question.question, checkbox_question.checkbox_options, :option, :option do |b| %>
+                            <div class="collection-check-box">
+                              <%= b.check_box %>
+                              <%= b.label %>
+                            </div>
+                          <% end %>
+                        </div>
+                      <% end %>
+                    </div>
+                  <% end %>
+                  <% if @basic_form.form_steps.count > 1 %>
+                    <% previous_step = @basic_form.previous_step @step.name %>
+                    <%= link_to "Previous", preview_form_basic_form_path(@basic_form.id, step: previous_step), class: "btn btn-success" %>
+                    <%= f.submit "Save #{@step.name}", class: "btn btn-success" %>
+                    <% next_step = @basic_form.next_step @step.name %>
+                    <%= link_to "Next", preview_form_basic_form_path(@basic_form.id, step: next_step), class: "btn btn-success" %>
+                  <% else %>
+                    <%= f.submit "Save #{@step.name}", class: "btn btn-success" %>
+                  <% end %>
+                <% end %>
+              </div>
+            <% else %>
+              <% @default_step = FormStep.find_by(name: @basic_form.current_step) %>
+              <div class="jumbotron mt-4">
+                <h5 class="text-center"><%= @default_step.name %></h5>
+                <%= form_for :user_response, url: :collect_user_response_basic_forms, method: :post do |f| %>
+                  <% if params[:submission_id].present? %>
+                    <%= f.hidden_field :submission_id, value: params[:submission_id]%>
+                  <% end %>
+                  <%= f.hidden_field :basic_form_id, value: @basic_form.id %>
+                  <% if user_signed_in? %>
+                    <%= f.hidden_field :user_id, value: current_user.id %>
+                  <% end %>
+                  <%= f.hidden_field :step_name, value: @default_step.name %>
+                  <% if @default_step.form_blocks.present? %>
+                    <h5 class="mt2">Simple Input blocks</h5>
+                    <hr>
+                    <div class="sortable">
+                      <% @default_step.form_blocks.each do |form_block| %>
+                        <%= f.hidden_field "form_block_#{form_block.id}", value: form_block.id %>
+                        <div class="form-group sortable-form-block" data-id="<%= form_block.id %>" style="border:1px solid #00f; padding:2%;">
+                          <label><%= form_block.label %></label>
+                          <% if form_block.field_type == "input" %>
+                            <% if form_block.is_required == true %>
+                              <% if form_block.placeholder_text.present? %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
+                              <% else %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
+                              <% end %>
+                            <% else %>
+                              <% if form_block.placeholder_text.present? %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
+                              <% else %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control" %>
+                              <% end %>
+                            <% end %>
+                          <% elsif form_block.field_type == "email" %> 
+                            <% if form_block.is_required == true %>
+                              <% if form_block.placeholder_text.present? %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
+                              <% else %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
+                              <% end %>
+                            <% else %>
+                              <% if form_block.placeholder_text.present? %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
+                              <% else %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control" %>
+                              <% end %>
+                            <% end %> 
+                          <% elsif form_block.field_type == "textarea" %>
+                            <% if form_block.is_required == true %>
+                              <% if form_block.placeholder_text.present? %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
+                              <% else %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
+                              <% end %>
+                            <% else %>
+                              <% if form_block.placeholder_text.present? %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
+                              <% else %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control" %>
+                              <% end %>
+                            <% end %>
+                          <% elsif form_block.field_type == "number" %>
+                            <% if form_block.is_required == true %>
+                              <% if form_block.placeholder_text.present? %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
+                              <% else %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
+                              <% end %>
+                            <% else %>
+                              <% if form_block.placeholder_text.present? %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
+                              <% else %>
+                                <%= f.text_field form_block.label.downcase, class: "form-control" %>
+                              <% end %>
+                            <% end %>
+                          <% elsif form_block.field_type == "date" %>
+                            <% if form_block.is_required == true %>
+                              <% if form_block.placeholder_text.present? %>
+                                <%= f.date_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
+                              <% else %>
+                                <%= f.date_field form_block.label.downcase, class: "form-control", required: true %>
+                              <% end %>
+                            <% else %>
+                              <% if form_block.placeholder_text.present? %>
+                                <%= f.date_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
+                              <% else %>
+                                <%= f.date_field form_block.label.downcase, class: "form-control" %>
+                              <% end %>
+                            <% end %>
+                          <% elsif form_block.field_type == "file" %>
+                            <% if form_block.is_required == true %>
+                              <%= f.file_field form_block.label.downcase, required: true %>
+                            <% else %>
+                              <%= f.file_field form_block.label.downcase %>
+                            <% end %>
+                          <% end %>
+                        </div>
+                      <% end %>
+                    </div>
+                  <% end %>
+                  <% if @default_step.multiple_choices.present? %>
+                    <h5 class="mt2">Multiple choice blocks</h5>
+                    <hr>
+                    <div class="multiple-choice-sortable">
+                      <% @default_step.multiple_choices.each do |multiple_choice| %>
+                        <div class="form-group multiple-choice-sortable-form-block" data-id="<%= multiple_choice.id %>" style="border:1px solid #00f; padding:2%;background-color: #fff;">
+                          <label><%= multiple_choice.question %></label>
+                          <% multiple_choice.mcq_options.each do |mcq| %>
+                            <div class="form-group">
+                              <%= f.radio_button multiple_choice.question, mcq.option %>
+                              <%= f.label mcq.option %>
+                            </div>
+                          <% end %>
+                        </div>
+                      <% end %>
+                    </div>
+                  <% end %>
+                  <% if @default_step.checkbox_questions.present? %>
+                    <h5 class="mt2">Variable choice blocks</h5>
+                    <hr>
+                    <div class="checkbox-sortable">
+                      <% @default_step.checkbox_questions.each do |checkbox_question| %>
+                        <div class="form-group sortable-checkbox-questions" data-id="<%= checkbox_question.id %>" style="border:1px solid #00f; padding:2%;background-color: #fff;">
+                          <label><%= checkbox_question.question %></label>
+                          <%= f.collection_check_boxes checkbox_question.question, checkbox_question.checkbox_options, :option, :option do |b| %>
+                            <div class="collection-check-box">
+                              <%= b.check_box %>
+                              <%= b.label %>
+                            </div>
+                          <% end %>
+                        </div>
+                      <% end %>
+                    </div>
+                  <% end %>
+                  <% if @basic_form.form_steps.count > 1 %>
+                    <% previous_step = @basic_form.previous_step @default_step.name %>
+                    <%= link_to "Previous", preview_form_basic_form_path(@basic_form.id, step: previous_step), class: "btn btn-success" %>
+                    <%= f.submit "Save #{@default_step.name}", class: "btn btn-success" %>
+                    <% next_step = @basic_form.next_step @default_step.name %>
+                    <%= link_to "Next", preview_form_basic_form_path(@basic_form.id, step: next_step), class: "btn btn-success" %>
+                  <% else %>
+                    <%= f.submit "Save #{@default_step.name}", class: "btn btn-success" %>
+                  <% end %>
+                <% end %>
+              </div>
             <% end %>
-          </div>
-          <% if params[:step].present? %>
-            <div class="jumbotron mt-4">
-              <h5 class="text-center"><%= @step.name %></h5>
-              <%= form_for :user_response, url: :collect_user_response_basic_forms, method: :post do |f| %>
-                <% if params[:submission_id].present? %>
-                  <%= f.hidden_field :submission_id, value: params[:submission_id]%>
-                <% end %>
-                <%= f.hidden_field :basic_form_id, value: @basic_form.id %>
-                <% if user_signed_in? %>
-                  <%= f.hidden_field :user_id, value: current_user.id %>
-                <% end %>
-                <%= f.hidden_field :step_name, value: @step.name %>
-                <% if @step.form_blocks.present?%>
-                  <h5 class="mt2">Simple Input blocks</h5>
-                  <hr>
-                  <div class="sortable">
-                    <% @step.form_blocks.each do |form_block| %>
-                      <%= f.hidden_field "form_block_#{form_block.id}", value: form_block.id %>
-                      <div class="form-group sortable-form-block" data-id="<%= form_block.id %>" style="border:1px solid #00f; padding:2%;">
-                        <label><%= form_block.label %></label>
-                        <% if form_block.field_type == "input" %>
-                          <% if form_block.is_required == true %>
-                            <% if form_block.placeholder_text.present? %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
-                            <% else %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
-                            <% end %>
-                          <% else %>
-                            <% if form_block.placeholder_text.present? %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
-                            <% else %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control" %>
-                            <% end %>
-                          <% end %>
-                        <% elsif form_block.field_type == "email" %> 
-                          <% if form_block.is_required == true %>
-                            <% if form_block.placeholder_text.present? %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
-                            <% else %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
-                            <% end %>
-                          <% else %>
-                            <% if form_block.placeholder_text.present? %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
-                            <% else %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control" %>
-                            <% end %>
-                          <% end %> 
-                        <% elsif form_block.field_type == "password" %>
-                          <% if form_block.is_required == true %>
-                            <% if form_block.placeholder_text.present? %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
-                            <% else %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
-                            <% end %>
-                          <% else %>
-                            <% if form_block.placeholder_text.present? %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
-                            <% else %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control" %>
-                            <% end %>
-                          <% end %> 
-                        <% elsif form_block.field_type == "textarea" %>
-                          <% if form_block.is_required == true %>
-                            <% if form_block.placeholder_text.present? %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text, rows: "5" %>
-                            <% else %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control", required: true, rows: "5" %>
-                            <% end %>
-                          <% else %>
-                            <% if form_block.placeholder_text.present? %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text, rows: "5" %>
-                            <% else %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control", rows: "5" %>
-                            <% end %>
-                          <% end %>
-                        <% elsif form_block.field_type == "number" %>
-                          <% if form_block.is_required == true %>
-                            <% if form_block.placeholder_text.present? %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
-                            <% else %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
-                            <% end %>
-                          <% else %>
-                            <% if form_block.placeholder_text.present? %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
-                            <% else %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control" %>
-                            <% end %>
-                          <% end %>
-                        <% elsif form_block.field_type == "date" %>
-                          <% if form_block.is_required == true %>
-                            <% if form_block.placeholder_text.present? %>
-                              <%= f.date_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
-                            <% else %>
-                              <%= f.date_field form_block.label.downcase, class: "form-control", required: true %>
-                            <% end %>
-                          <% else %>
-                            <% if form_block.placeholder_text.present? %>
-                              <%= f.date_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
-                            <% else %>
-                              <%= f.date_field form_block.label.downcase, class: "form-control" %>
-                            <% end %>
-                          <% end %>
-                        <% elsif form_block.field_type == "file" %>
-                          <% if form_block.is_required == true %>
-                            <%= f.file_field form_block.label.downcase, required: true %>
-                          <% else %>
-                            <%= f.file_field form_block.label.downcase %>
-                          <% end %>
-                        <% end %>
-                      </div>
-                    <% end %>
-                  </div>
-                <% end %>
-                <% if @step.multiple_choices.present?%>
-                  <h5 class="mt2">Multple choice questions</h5>
-                  <hr>
-                  <div class="multiple-choice-sortable">
-                    <% @step.multiple_choices.each do |multiple_choice| %>
-                      <div class="form-group multiple-choice-sortable-form-block" data-id="<%= multiple_choice.id %>" style="border:1px solid #00f; padding:2%;background-color: #fff;">
-                        <label><%= multiple_choice.question %></label>
-                        <% multiple_choice.mcq_options.each do |mcq| %>
-                          <div class="form-group">
-                            <%= f.radio_button multiple_choice.question, mcq.option %>
-                            <%= f.label mcq.option %>
-                          </div>
-                        <% end %>
-                      </div>
-                    <% end %>
-                  </div>
-                <% end %>
-                <% if @step.checkbox_questions.present? %>
-                  <h5 class="mt2">Variable choice questions</h5>
-                  <hr>
-                  <div class="checkbox-sortable">
-                    <% @step.checkbox_questions.each do |checkbox_question| %>
-                      <div class="form-group sortable-checkbox-questions" data-id="<%= checkbox_question.id %>" style="border:1px solid #00f; padding:2%;background-color: #fff;">
-                        <label><%= checkbox_question.question %></label>
-                        <%= f.collection_check_boxes checkbox_question.question, checkbox_question.checkbox_options, :option, :option do |b| %>
-                          <div class="collection-check-box">
-                            <%= b.check_box %>
-                            <%= b.label %>
-                          </div>
-                        <% end %>
-                      </div>
-                    <% end %>
-                  </div>
-                <% end %>
-                <% if @basic_form.form_steps.count > 1 %>
-                  <% previous_step = @basic_form.previous_step @step.name %>
-                  <%= link_to "Previous", preview_form_basic_form_path(@basic_form.id, step: previous_step), class: "btn btn-success" %>
-                  <%= f.submit "Save #{@step.name}", class: "btn btn-success" %>
-                  <% next_step = @basic_form.next_step @step.name %>
-                  <%= link_to "Next", preview_form_basic_form_path(@basic_form.id, step: next_step), class: "btn btn-success" %>
-                <% else %>
-                  <%= f.submit "Save #{@step.name}", class: "btn btn-success" %>
-                <% end %>
-              <% end %>
-            </div>
           <% else %>
-            <% @default_step = FormStep.find_by(name: @basic_form.current_step) %>
-            <div class="jumbotron mt-4">
-              <h5 class="text-center"><%= @default_step.name %></h5>
-              <%= form_for :user_response, url: :collect_user_response_basic_forms, method: :post do |f| %>
-                <% if params[:submission_id].present? %>
-                  <%= f.hidden_field :submission_id, value: params[:submission_id]%>
-                <% end %>
-                <%= f.hidden_field :basic_form_id, value: @basic_form.id %>
-                <% if user_signed_in? %>
-                  <%= f.hidden_field :user_id, value: current_user.id %>
-                <% end %>
-                <%= f.hidden_field :step_name, value: @default_step.name %>
-                <% if @default_step.form_blocks.present? %>
-                  <h5 class="mt2">Simple Input blocks</h5>
-                  <hr>
-                  <div class="sortable">
-                    <% @default_step.form_blocks.each do |form_block| %>
-                      <%= f.hidden_field "form_block_#{form_block.id}", value: form_block.id %>
-                      <div class="form-group sortable-form-block" data-id="<%= form_block.id %>" style="border:1px solid #00f; padding:2%;">
-                        <label><%= form_block.label %></label>
-                        <% if form_block.field_type == "input" %>
-                          <% if form_block.is_required == true %>
-                            <% if form_block.placeholder_text.present? %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
-                            <% else %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
-                            <% end %>
-                          <% else %>
-                            <% if form_block.placeholder_text.present? %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
-                            <% else %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control" %>
-                            <% end %>
-                          <% end %>
-                        <% elsif form_block.field_type == "email" %> 
-                          <% if form_block.is_required == true %>
-                            <% if form_block.placeholder_text.present? %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
-                            <% else %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
-                            <% end %>
-                          <% else %>
-                            <% if form_block.placeholder_text.present? %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
-                            <% else %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control" %>
-                            <% end %>
-                          <% end %> 
-                        <% elsif form_block.field_type == "textarea" %>
-                          <% if form_block.is_required == true %>
-                            <% if form_block.placeholder_text.present? %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
-                            <% else %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
-                            <% end %>
-                          <% else %>
-                            <% if form_block.placeholder_text.present? %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
-                            <% else %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control" %>
-                            <% end %>
-                          <% end %>
-                        <% elsif form_block.field_type == "number" %>
-                          <% if form_block.is_required == true %>
-                            <% if form_block.placeholder_text.present? %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
-                            <% else %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
-                            <% end %>
-                          <% else %>
-                            <% if form_block.placeholder_text.present? %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
-                            <% else %>
-                              <%= f.text_field form_block.label.downcase, class: "form-control" %>
-                            <% end %>
-                          <% end %>
-                        <% elsif form_block.field_type == "date" %>
-                          <% if form_block.is_required == true %>
-                            <% if form_block.placeholder_text.present? %>
-                              <%= f.date_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
-                            <% else %>
-                              <%= f.date_field form_block.label.downcase, class: "form-control", required: true %>
-                            <% end %>
-                          <% else %>
-                            <% if form_block.placeholder_text.present? %>
-                              <%= f.date_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
-                            <% else %>
-                              <%= f.date_field form_block.label.downcase, class: "form-control" %>
-                            <% end %>
-                          <% end %>
-                        <% elsif form_block.field_type == "file" %>
-                          <% if form_block.is_required == true %>
-                            <%= f.file_field form_block.label.downcase, required: true %>
-                          <% else %>
-                            <%= f.file_field form_block.label.downcase %>
-                          <% end %>
-                        <% end %>
-                      </div>
-                    <% end %>
-                  </div>
-                <% end %>
-                <% if @default_step.multiple_choices.present? %>
-                  <h5 class="mt2">Multiple choice blocks</h5>
-                  <hr>
-                  <div class="multiple-choice-sortable">
-                    <% @default_step.multiple_choices.each do |multiple_choice| %>
-                      <div class="form-group multiple-choice-sortable-form-block" data-id="<%= multiple_choice.id %>" style="border:1px solid #00f; padding:2%;background-color: #fff;">
-                        <label><%= multiple_choice.question %></label>
-                        <% multiple_choice.mcq_options.each do |mcq| %>
-                          <div class="form-group">
-                            <%= f.radio_button multiple_choice.question, mcq.option %>
-                            <%= f.label mcq.option %>
-                          </div>
-                        <% end %>
-                      </div>
-                    <% end %>
-                  </div>
-                <% end %>
-                <% if @default_step.checkbox_questions.present? %>
-                  <h5 class="mt2">Variable choice blocks</h5>
-                  <hr>
-                  <div class="checkbox-sortable">
-                    <% @default_step.checkbox_questions.each do |checkbox_question| %>
-                      <div class="form-group sortable-checkbox-questions" data-id="<%= checkbox_question.id %>" style="border:1px solid #00f; padding:2%;background-color: #fff;">
-                        <label><%= checkbox_question.question %></label>
-                        <%= f.collection_check_boxes checkbox_question.question, checkbox_question.checkbox_options, :option, :option do |b| %>
-                          <div class="collection-check-box">
-                            <%= b.check_box %>
-                            <%= b.label %>
-                          </div>
-                        <% end %>
-                      </div>
-                    <% end %>
-                  </div>
-                <% end %>
-                <% if @basic_form.form_steps.count > 1 %>
-                  <% previous_step = @basic_form.previous_step @default_step.name %>
-                  <%= link_to "Previous", preview_form_basic_form_path(@basic_form.id, step: previous_step), class: "btn btn-success" %>
-                  <%= f.submit "Save #{@default_step.name}", class: "btn btn-success" %>
-                  <% next_step = @basic_form.next_step @default_step.name %>
-                  <%= link_to "Next", preview_form_basic_form_path(@basic_form.id, step: next_step), class: "btn btn-success" %>
-                <% else %>
-                  <%= f.submit "Save #{@default_step.name}", class: "btn btn-success" %>
-                <% end %>
+            <%= form_for :user_response, url: :collect_user_response_basic_forms, method: :post do |f| %>
+              <% if params[:submission_id].present? %>
+                <%= f.hidden_field :submission_id, value: params[:submission_id]%>
               <% end %>
-            </div>
+              <%= f.hidden_field :basic_form_id, value: @basic_form.id %>
+              <% if user_signed_in? %>
+                <%= f.hidden_field :user_id, value: current_user.id %>
+              <% end %>
+              <% if @basic_form.form_blocks.present? %>
+                <h5 class="mt2">Simple Input blocks</h5>
+                <hr>
+                <div class="sortable">
+                  <% @basic_form.form_blocks.each do |form_block| %>
+                    <%= f.hidden_field "form_block_#{form_block.id}", value: form_block.id %>
+                    <div class="form-group sortable-form-block" data-id="<%= form_block.id %>" style="border:1px solid #00f; padding:2%;">
+                      <label><%= form_block.label %></label>
+                      <% if form_block.field_type == "input" %>
+                        <% if form_block.is_required == true %>
+                          <% if form_block.placeholder_text.present? %>
+                            <%= f.text_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
+                          <% else %>
+                            <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
+                          <% end %>
+                        <% else %>
+                          <% if form_block.placeholder_text.present? %>
+                            <%= f.text_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
+                          <% else %>
+                            <%= f.text_field form_block.label.downcase, class: "form-control" %>
+                          <% end %>
+                        <% end %>
+                      <% elsif form_block.field_type == "email" %> 
+                        <% if form_block.is_required == true %>
+                          <% if form_block.placeholder_text.present? %>
+                            <%= f.text_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
+                          <% else %>
+                            <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
+                          <% end %>
+                        <% else %>
+                          <% if form_block.placeholder_text.present? %>
+                            <%= f.text_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
+                          <% else %>
+                            <%= f.text_field form_block.label.downcase, class: "form-control" %>
+                          <% end %>
+                        <% end %> 
+                      <% elsif form_block.field_type == "textarea" %>
+                        <% if form_block.is_required == true %>
+                          <% if form_block.placeholder_text.present? %>
+                            <%= f.text_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
+                          <% else %>
+                            <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
+                          <% end %>
+                        <% else %>
+                          <% if form_block.placeholder_text.present? %>
+                            <%= f.text_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
+                          <% else %>
+                            <%= f.text_field form_block.label.downcase, class: "form-control" %>
+                          <% end %>
+                        <% end %>
+                      <% elsif form_block.field_type == "number" %>
+                        <% if form_block.is_required == true %>
+                          <% if form_block.placeholder_text.present? %>
+                            <%= f.text_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
+                          <% else %>
+                            <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
+                          <% end %>
+                        <% else %>
+                          <% if form_block.placeholder_text.present? %>
+                            <%= f.text_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
+                          <% else %>
+                            <%= f.text_field form_block.label.downcase, class: "form-control" %>
+                          <% end %>
+                        <% end %>
+                      <% elsif form_block.field_type == "date" %>
+                        <% if form_block.is_required == true %>
+                          <% if form_block.placeholder_text.present? %>
+                            <%= f.date_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
+                          <% else %>
+                            <%= f.date_field form_block.label.downcase, class: "form-control", required: true %>
+                          <% end %>
+                        <% else %>
+                          <% if form_block.placeholder_text.present? %>
+                            <%= f.date_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
+                          <% else %>
+                            <%= f.date_field form_block.label.downcase, class: "form-control" %>
+                          <% end %>
+                        <% end %>
+                      <% elsif form_block.field_type == "file" %>
+                        <% if form_block.is_required == true %>
+                          <%= f.file_field form_block.label.downcase, required: true %>
+                        <% else %>
+                          <%= f.file_field form_block.label.downcase %>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+              <% end %>
+              <% if @basic_form.multiple_choices.present? %>
+                <h5 class="mt2">Multiple choice blocks</h5>
+                <hr>
+                <div class="multiple-choice-sortable">
+                  <% @basic_form.multiple_choices.each do |multiple_choice| %>
+                    <div class="form-group multiple-choice-sortable-form-block" data-id="<%= multiple_choice.id %>" style="border:1px solid #00f; padding:2%;background-color: #fff;">
+                      <label><%= multiple_choice.question %></label>
+                      <% multiple_choice.mcq_options.each do |mcq| %>
+                        <div class="form-group">
+                          <%= f.radio_button multiple_choice.question, mcq.option %>
+                          <%= f.label mcq.option %>
+                        </div>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+              <% end %>
+              <% if @basic_form.checkbox_questions.present? %>
+                <h5 class="mt2">Variable choice blocks</h5>
+                <hr>
+                <div class="checkbox-sortable">
+                  <% @basic_form.checkbox_questions.each do |checkbox_question| %>
+                    <div class="form-group sortable-checkbox-questions" data-id="<%= checkbox_question.id %>" style="border:1px solid #00f; padding:2%;background-color: #fff;">
+                      <label><%= checkbox_question.question %></label>
+                      <%= f.collection_check_boxes checkbox_question.question, checkbox_question.checkbox_options, :option, :option do |b| %>
+                        <div class="collection-check-box">
+                          <%= b.check_box %>
+                          <%= b.label %>
+                        </div>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+              <% end %>
+              <%= f.submit "Save Response", class: "btn btn-success" %>
+            <% end %>
           <% end %>
         </div>
       </div>

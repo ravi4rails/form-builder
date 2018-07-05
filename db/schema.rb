@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180630080055) do
+ActiveRecord::Schema.define(version: 20180704225316) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,8 @@ ActiveRecord::Schema.define(version: 20180630080055) do
     t.boolean "is_required"
     t.integer "form_step_id"
     t.integer "priority"
+    t.bigint "basic_form_id"
+    t.index ["basic_form_id"], name: "index_checkbox_questions_on_basic_form_id"
     t.index ["feedback_form_id"], name: "index_checkbox_questions_on_feedback_form_id"
   end
 
@@ -88,6 +90,8 @@ ActiveRecord::Schema.define(version: 20180630080055) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "form_step_id"
+    t.bigint "basic_form_id"
+    t.index ["basic_form_id"], name: "index_dropdowns_on_basic_form_id"
     t.index ["feedback_form_id"], name: "index_dropdowns_on_feedback_form_id"
   end
 
@@ -108,6 +112,8 @@ ActiveRecord::Schema.define(version: 20180630080055) do
     t.integer "priority"
     t.string "placeholder_text"
     t.string "block_description"
+    t.bigint "basic_form_id"
+    t.index ["basic_form_id"], name: "index_form_blocks_on_basic_form_id"
     t.index ["form_step_id"], name: "index_form_blocks_on_form_step_id"
   end
 
@@ -154,6 +160,8 @@ ActiveRecord::Schema.define(version: 20180630080055) do
     t.boolean "is_required"
     t.integer "form_step_id"
     t.integer "priority"
+    t.bigint "basic_form_id"
+    t.index ["basic_form_id"], name: "index_multiple_choices_on_basic_form_id"
     t.index ["feedback_form_id"], name: "index_multiple_choices_on_feedback_form_id"
   end
 
@@ -243,8 +251,12 @@ ActiveRecord::Schema.define(version: 20180630080055) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "checkbox_questions", "basic_forms"
+  add_foreign_key "dropdowns", "basic_forms"
+  add_foreign_key "form_blocks", "basic_forms"
   add_foreign_key "form_blocks", "form_steps"
   add_foreign_key "form_steps", "basic_forms"
+  add_foreign_key "multiple_choices", "basic_forms"
   add_foreign_key "submissions", "multistep_forms"
   add_foreign_key "user_response_values", "form_blocks"
   add_foreign_key "user_response_values", "users"

@@ -1,5 +1,4 @@
 class MultistepForm < ApplicationRecord
-  
 
   has_many :form_steps, inverse_of: :multistep_form
   accepts_nested_attributes_for :form_steps, reject_if: :all_blank, allow_destroy: true
