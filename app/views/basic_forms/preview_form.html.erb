@@ -346,73 +346,83 @@
                       <% if form_block.field_type == "input" %>
                         <% if form_block.is_required == true %>
                           <% if form_block.placeholder_text.present? %>
-                            <%= f.text_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
+                            <%= f.text_field form_block.label.downcase, class: "form-control conditional-form-block", required: true, placeholder: form_block.placeholder_text, data: {block_id: form_block.id } %>
                           <% else %>
-                            <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
+                            <%= f.text_field form_block.label.downcase, class: "form-control conditional-form-block", required: true, data: {block_id: form_block.id } %>
                           <% end %>
                         <% else %>
                           <% if form_block.placeholder_text.present? %>
-                            <%= f.text_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
+                            <%= f.text_field form_block.label.downcase, class: "form-control conditional-form-block", placeholder: form_block.placeholder_text, data: {block_id: form_block.id } %>
                           <% else %>
-                            <%= f.text_field form_block.label.downcase, class: "form-control" %>
+                            <%= f.text_field form_block.label.downcase, class: "form-control conditional-form-block", data: {block_id: form_block.id } %>
                           <% end %>
                         <% end %>
+                        <div id="form_block_<%= form_block.id %>_condition">
+                        </div>
                       <% elsif form_block.field_type == "email" %> 
                         <% if form_block.is_required == true %>
                           <% if form_block.placeholder_text.present? %>
-                            <%= f.text_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
+                            <%= f.email_field form_block.label.downcase, class: "form-control conditional-form-block", required: true, placeholder: form_block.placeholder_text, data: {block_id: form_block.id } %>
                           <% else %>
-                            <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
+                            <%= f.email_field form_block.label.downcase, class: "form-control conditional-form-block", required: true, data: {block_id: form_block.id } %>
                           <% end %>
                         <% else %>
                           <% if form_block.placeholder_text.present? %>
-                            <%= f.text_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
+                            <%= f.email_field form_block.label.downcase, class: "form-control conditional-form-block", placeholder: form_block.placeholder_text, data: {block_id: form_block.id } %>
                           <% else %>
-                            <%= f.text_field form_block.label.downcase, class: "form-control" %>
+                            <%= f.email_field form_block.label.downcase, class: "form-control conditional-form-block", data: {block_id: form_block.id } %>
                           <% end %>
                         <% end %> 
+                        <div id="form_block_<%= form_block.id %>_condition">
+                        </div>
                       <% elsif form_block.field_type == "textarea" %>
                         <% if form_block.is_required == true %>
                           <% if form_block.placeholder_text.present? %>
-                            <%= f.text_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
+                            <%= f.text_field form_block.label.downcase, class: "form-control conditional-form-block", required: true, placeholder: form_block.placeholder_text, data: {block_id: form_block.id } %>
                           <% else %>
-                            <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
+                            <%= f.text_field form_block.label.downcase, class: "form-control conditional-form-block", required: true, data: {block_id: form_block.id } %>
                           <% end %>
                         <% else %>
                           <% if form_block.placeholder_text.present? %>
-                            <%= f.text_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
+                            <%= f.text_field form_block.label.downcase, class: "form-control conditional-form-block", placeholder: form_block.placeholder_text, data: {block_id: form_block.id } %>
                           <% else %>
-                            <%= f.text_field form_block.label.downcase, class: "form-control" %>
+                            <%= f.text_field form_block.label.downcase, class: "form-control conditional-form-block", data: {block_id: form_block.id } %>
                           <% end %>
                         <% end %>
+                        <div id="form_block_<%= form_block.id %>_condition">
+                        </div>
                       <% elsif form_block.field_type == "number" %>
                         <% if form_block.is_required == true %>
                           <% if form_block.placeholder_text.present? %>
-                            <%= f.text_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
+                            <%= f.text_field form_block.label.downcase, class: "form-control conditional-form-block", required: true, placeholder: form_block.placeholder_text, data: {block_id: form_block.id } %>
                           <% else %>
-                            <%= f.text_field form_block.label.downcase, class: "form-control", required: true %>
+                            <%= f.text_field form_block.label.downcase, class: "form-control conditional-form-block", required: true, data: {block_id: form_block.id } %>
                           <% end %>
                         <% else %>
                           <% if form_block.placeholder_text.present? %>
-                            <%= f.text_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
+                            <%= f.text_field form_block.label.downcase, class: "form-control conditional-form-block", placeholder: form_block.placeholder_text, data: {block_id: form_block.id } %>
                           <% else %>
-                            <%= f.text_field form_block.label.downcase, class: "form-control" %>
+                            <%= f.text_field form_block.label.downcase, class: "form-control conditional-form-block", data: {block_id: form_block.id } %>
                           <% end %>
                         <% end %>
+                        <div id="form_block_<%= form_block.id %>_condition">
+                        </div>
                       <% elsif form_block.field_type == "date" %>
                         <% if form_block.is_required == true %>
                           <% if form_block.placeholder_text.present? %>
-                            <%= f.date_field form_block.label.downcase, class: "form-control", required: true, placeholder: form_block.placeholder_text %>
+                            <%= f.date_field form_block.label.downcase, class: "form-control conditional-form-block", required: true, placeholder: form_block.placeholder_text, data: {block_id: form_block.id } %>
                           <% else %>
-                            <%= f.date_field form_block.label.downcase, class: "form-control", required: true %>
+                            <%= f.date_field form_block.label.downcase, class: "form-control conditional-form-block", required: true, data: {block_id: form_block.id } %>
                           <% end %>
                         <% else %>
                           <% if form_block.placeholder_text.present? %>
-                            <%= f.date_field form_block.label.downcase, class: "form-control", placeholder: form_block.placeholder_text %>
+                            <%= f.date_field form_block.label.downcase, class: "form-control conditional-form-block", placeholder: form_block.placeholder_text, data: {block_id: form_block.id } %>
                           <% else %>
-                            <%= f.date_field form_block.label.downcase, class: "form-control" %>
+                            <%= f.date_field form_block.label.downcase, class: "form-control conditional-form-block", data: {block_id: form_block.id } %>
                           <% end %>
                         <% end %>
+                        <div id="form_block_<%= form_block.id %>_condition">
+                        </div>
                       <% elsif form_block.field_type == "file" %>
                         <% if form_block.is_required == true %>
                           <%= f.file_field form_block.label.downcase, required: true %>
@@ -458,6 +468,20 @@
                   <% end %>
                 </div>
               <% end %>
+              <% if @basic_form.dropdowns.present? %>
+                <h5 class="mt-2">Dropdown blocks</h5>
+                <hr>
+                <div class="dropdown-sortable">
+                  <% @basic_form.dropdowns.each do |dropdown| %>
+                    <div class="form-group">
+                      <label><%= dropdown.title %></label>
+                      <%= f.select :dropdown_option, options_for_select(dropdown.dropdown_options.map {|dop| [dop.option, dop.id, "data-drop-value" => dropdown.id] }), {prompt: "Please select a value from the list"}, {class: "form-control select-drop"} %>
+                    </div>
+                    <div id="dropdown_condition_<%= dropdown.id %>">
+                    </div>
+                  <% end %>
+                </div>
+              <% end %>
               <%= f.submit "Save Response", class: "btn btn-success" %>
             <% end %>
           <% end %>
@@ -468,3 +492,29 @@
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+
+
+<script type="text/javascript">
+  $('.select-drop').on('change', function(){
+    dropdownId = $(this).find(':selected').data('drop-value');
+    optionId = $(this).val()
+    $.ajax({
+      url: '/dropdown_conditional_block',
+      type: 'GET', 
+      data: { dropdown_id : dropdownId, dropdown_option_id : optionId }
+    });
+  });
+
+  $('.conditional-form-block').on('blur', function(){
+    if ($(this).val() != "") {
+      formBlockId = $(this).attr('data-block-id');
+      $.ajax({
+        url: '/form_block_conditional_block',
+        type: 'GET', 
+        data: { form_block_id : formBlockId }
+      });
+    }
+  });
+
+
+</script>

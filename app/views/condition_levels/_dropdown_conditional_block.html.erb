@@ -1,0 +1,11 @@
+<% if @dropdown.level_one_conditions.present? %>
+  <% @dropdown.level_one_conditions.each do |condition| %>
+    <div class="form-group">
+      <label><%= condition.conditional_question %></label>
+      <input 
+        type="text" 
+        name="user_response[dropdown_conditional_answer_for_<%= condition.id %>]"
+        class="form-control">
+    </div>
+  <% end %>
+<% end %>

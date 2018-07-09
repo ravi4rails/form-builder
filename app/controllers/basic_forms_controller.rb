@@ -126,7 +126,7 @@ class BasicFormsController < ApplicationController
       @submission = Submission.new(user_id: @user.id, basic_form_id: @basic_form.id, form_values: form_block_values)
       respond_to do |format|
         if @submission.save 
-          form_block_ids.each do |key, val| 
+          form_block_ids.each do |key,val| 
             form_block = FormBlock.find(val)
             lab = form_block.label.downcase
             user_response_value = @user.user_response_values.create(form_block_id: form_block.id, form_block_value: form_block_values[lab], submission_id: @submission.id)

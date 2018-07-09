@@ -6,6 +6,10 @@ class FormBlock < ApplicationRecord
   FIELDTYPE = ["input", "textarea", "file", "email", "password", "number", "date"]
 
   default_scope { order("priority ASC") }
+
+  has_many :level_one_conditions
+
+  accepts_nested_attributes_for :level_one_conditions, reject_if: :all_blank, allow_destroy: true
   
 end
 

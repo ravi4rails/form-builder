@@ -30,5 +30,8 @@ Rails.application.routes.draw do
   root 'home#index'
 
   resources :forms
+
+  get '/dropdown_conditional_block' => "condition_levels#dropdown_conditional_block"
+  get '/form_block_conditional_block' => "condition_levels#form_block_conditional_block"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

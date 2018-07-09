@@ -1,0 +1,11 @@
+<% if @form_block.level_one_conditions.present? %>
+  <% @form_block.level_one_conditions.each do |condition| %>
+    <div class="form-group">
+      <label><%= condition.conditional_question %></label>
+      <input 
+        type="text" 
+        name="user_response[form_block_conditional_answer_<%= condition.id %>]"
+        class="form-control">
+    </div>
+  <% end %>
+<% end %>

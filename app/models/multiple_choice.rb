@@ -5,4 +5,6 @@ class MultipleChoice < ApplicationRecord
 
   default_scope { order("priority ASC") }
   
+  has_one :level_one_condition
+
 end

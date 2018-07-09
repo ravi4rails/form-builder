@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180704225316) do
+ActiveRecord::Schema.define(version: 20180709063656) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -144,6 +144,21 @@ ActiveRecord::Schema.define(version: 20180704225316) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "level_one_conditions", force: :cascade do |t|
+    t.bigint "form_block_id"
+    t.bigint "dropdown_id"
+    t.bigint "checkbox_question_id"
+    t.bigint "multiple_choice_id"
+    t.string "conditional_question"
+    t.string "conditional_answer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["checkbox_question_id"], name: "index_level_one_conditions_on_checkbox_question_id"
+    t.index ["dropdown_id"], name: "index_level_one_conditions_on_dropdown_id"
+    t.index ["form_block_id"], name: "index_level_one_conditions_on_form_block_id"
+    t.index ["multiple_choice_id"], name: "index_level_one_conditions_on_multiple_choice_id"
+  end
+
   create_table "mcq_options", force: :cascade do |t|
     t.string "option"
     t.integer "multiple_choice_id"
@@ -256,6 +271,10 @@ ActiveRecord::Schema.define(version: 20180704225316) do
   add_foreign_key "form_blocks", "basic_forms"
   add_foreign_key "form_blocks", "form_steps"
   add_foreign_key "form_steps", "basic_forms"
+  add_foreign_key "level_one_conditions", "checkbox_questions"
+  add_foreign_key "level_one_conditions", "dropdowns"
+  add_foreign_key "level_one_conditions", "form_blocks"
+  add_foreign_key "level_one_conditions", "multiple_choices"
   add_foreign_key "multiple_choices", "basic_forms"
   add_foreign_key "submissions", "multistep_forms"
   add_foreign_key "user_response_values", "form_blocks"

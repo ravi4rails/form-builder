@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  form_block: one
+  dropdown: one
+  checkbox_question: one
+  multiple_choice: one
+  conditional_question: MyString
+
+two:
+  form_block: two
+  dropdown: two
+  checkbox_question: two
+  multiple_choice: two
+  conditional_question: MyString
