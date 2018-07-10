@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180710055535) do
+ActiveRecord::Schema.define(version: 20180710105411) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -146,17 +146,17 @@ ActiveRecord::Schema.define(version: 20180710055535) do
 
   create_table "level_one_conditions", force: :cascade do |t|
     t.bigint "form_block_id"
-    t.bigint "checkbox_question_id"
-    t.bigint "multiple_choice_id"
     t.string "conditional_question"
     t.string "conditional_answer"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "dropdown_option_id"
-    t.index ["checkbox_question_id"], name: "index_level_one_conditions_on_checkbox_question_id"
+    t.bigint "checkbox_option_id"
+    t.bigint "mcq_option_id"
+    t.index ["checkbox_option_id"], name: "index_level_one_conditions_on_checkbox_option_id"
     t.index ["dropdown_option_id"], name: "index_level_one_conditions_on_dropdown_option_id"
     t.index ["form_block_id"], name: "index_level_one_conditions_on_form_block_id"
-    t.index ["multiple_choice_id"], name: "index_level_one_conditions_on_multiple_choice_id"
+    t.index ["mcq_option_id"], name: "index_level_one_conditions_on_mcq_option_id"
   end
 
   create_table "mcq_options", force: :cascade do |t|
@@ -271,10 +271,10 @@ ActiveRecord::Schema.define(version: 20180710055535) do
   add_foreign_key "form_blocks", "basic_forms"
   add_foreign_key "form_blocks", "form_steps"
   add_foreign_key "form_steps", "basic_forms"
-  add_foreign_key "level_one_conditions", "checkbox_questions"
+  add_foreign_key "level_one_conditions", "checkbox_options"
   add_foreign_key "level_one_conditions", "dropdown_options"
   add_foreign_key "level_one_conditions", "form_blocks"
-  add_foreign_key "level_one_conditions", "multiple_choices"
+  add_foreign_key "level_one_conditions", "mcq_options"
   add_foreign_key "multiple_choices", "basic_forms"
   add_foreign_key "submissions", "multistep_forms"
   add_foreign_key "user_response_values", "form_blocks"

@@ -15,4 +15,11 @@ class ConditionLevelsController < ApplicationController
     end
   end
 
+  def mcq_conditional_block
+    @mcq_option = McqOption.find(params[:mcq_option_id])
+    respond_to do |format|
+      format.js
+    end
+  end
+
 end

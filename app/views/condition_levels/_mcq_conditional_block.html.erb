@@ -1,0 +1,11 @@
+<% if @mcq_option.level_one_conditions.present? %>
+  <% @mcq_option.level_one_conditions.each do |condition| %>
+    <div class="form-group">
+      <label><%= condition.conditional_question %></label>
+      <input 
+        type="text" 
+        name="user_response[mcq_conditional_answer_for_<%= condition.id %>]"
+        class="form-control">
+    </div>
+  <% end %>
+<% end %>

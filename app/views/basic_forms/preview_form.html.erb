@@ -441,12 +441,14 @@
                   <% @basic_form.multiple_choices.each do |multiple_choice| %>
                     <div class="form-group multiple-choice-sortable-form-block" data-id="<%= multiple_choice.id %>" style="border:1px solid #00f; padding:2%;background-color: #fff;">
                       <label><%= multiple_choice.question %></label>
-                      <% multiple_choice.mcq_options.each do |mcq| %>
-                        <div class="form-group">
-                          <%= f.radio_button multiple_choice.question, mcq.option %>
-                          <%= f.label mcq.option %>
-                        </div>
-                      <% end %>
+                      <div class="form-group mcq-opts">
+                        <% multiple_choice.mcq_options.each do |mcq| %>
+                          <%= f.radio_button multiple_choice.question, mcq.option, data: { option_id: mcq.id } %>
+                          <%= f.label mcq.option %><br>
+                          <div id="mcq_option_condition_<%= mcq.id %>" class="mt-2">
+                          </div>
+                        <% end %>
+                      </div>
                     </div>
                   <% end %>
                 </div>
@@ -516,5 +518,28 @@
     }
   });
 
+  var selected = [];
+  $('.collection-check-box input[type="checkbox"]').each(function() {
+    $(this).click(function(){
+      if($(this).is(":checked")){
+        selected.push($(this).val());
+        console.log(selected);
+      } else if ($(this).is(":not(:checked)")) {
+        selected.pop($(this).val());
+        console.log(selected);
+      }
+    });
+  });
+
+  $('.mcq-opts input[type="radio"]').each(function() {
+    $(this).click(function(){
+      mcqOptionId = $(this).data("option-id");
+      $.ajax({
+        url: '/mcq_conditional_block',
+        type: 'GET',
+        data: {mcq_option_id : mcqOptionId}
+      });
+    });
+  });
 
 </script>

@@ -1,6 +1,17 @@
-<h1>Editing Basic Form</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-2">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title text-center">Editing Basic Form</h4>
+        </div>
+        <div class="card-body">
+          <%= render 'form', basic_form: @basic_form %>
+          <%= link_to 'Show', @basic_form %> |
+          <%= link_to 'Back', basic_forms_path %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<%= render 'form', basic_form: @basic_form %>
-
-<%= link_to 'Show', @basic_form %> |
-<%= link_to 'Back', basic_forms_path %>
