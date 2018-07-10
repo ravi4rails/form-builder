@@ -22,4 +22,15 @@ class ConditionLevelsController < ApplicationController
     end
   end
 
+  def checkbox_conditional_block
+    if params[:checked_option_id].present? 
+      @checkbox_option = CheckboxOption.find(params[:checked_option_id])
+    elsif params[:unchecked_option_id].present?
+      @checkbox_option = CheckboxOption.find(params[:unchecked_option_id])
+    end
+    respond_to do |format|
+      format.js
+    end
+  end
+
 end

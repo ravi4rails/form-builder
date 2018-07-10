@@ -1,0 +1,5 @@
+<% if params[:checked_option_id].present? %>
+  $("#checkbox_option_<%= @checkbox_option.id %>").html("<%= escape_javascript render(partial: 'checkbox_conditional_block')%>");
+<% elsif params[:unchecked_option_id].present? %>
+  $("#checkbox_option_<%= @checkbox_option.id %>").html("")
+<% end %>

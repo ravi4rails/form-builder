@@ -462,9 +462,11 @@
                       <label><%= checkbox_question.question %></label>
                       <%= f.collection_check_boxes checkbox_question.question, checkbox_question.checkbox_options, :option, :option do |b| %>
                         <div class="collection-check-box">
-                          <%= b.check_box %>
+                          <% data_check_id =  get_option_id(b.value) %>
+                          <%= b.check_box(data: {check_id: data_check_id}) %>
                           <%= b.label %>
                         </div>
+                        <div id="checkbox_option_<%= data_check_id %>"></div>
                       <% end %>
                     </div>
                   <% end %>
@@ -495,7 +497,6 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 
-
 <script type="text/javascript">
   $('.select-drop').on('change', function(){
     dropdownId = $(this).find(':selected').data('drop-value');
@@ -518,15 +519,22 @@
     }
   });
 
-  var selected = [];
   $('.collection-check-box input[type="checkbox"]').each(function() {
     $(this).click(function(){
       if($(this).is(":checked")){
-        selected.push($(this).val());
-        console.log(selected);
+        checkedOptionId = $(this).data("check-id");
+        $.ajax({
+          url: '/checkbox_conditional_block',
+          type: 'GET',
+          data: {checked_option_id : checkedOptionId}
+        });
       } else if ($(this).is(":not(:checked)")) {
-        selected.pop($(this).val());
-        console.log(selected);
+        unCheckedOptionId = $(this).data("check-id");
+        $.ajax({
+          url: '/checkbox_conditional_block',
+          type: 'GET',
+          data: {unchecked_option_id : unCheckedOptionId}
+        });
       }
     });
   });
