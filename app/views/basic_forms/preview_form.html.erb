@@ -6,6 +6,9 @@
           <h5 class="card-title text-center"><%= @basic_form.name %></h5>
         </div>
         <div class="card-body">
+          <div class="ajax-loader">
+            <%= image_tag "ajax-loader.gif", class: "img-fluid" %>
+          </div>
           <p class="lead"><%= @basic_form.description %></p>
           <% if @basic_form.is_multistep_form == true %>
             <div class="form-step-group text-center">
@@ -502,9 +505,15 @@
     dropdownId = $(this).find(':selected').data('drop-value');
     optionId = $(this).val()
     $.ajax({
+      beforeSend: function(){
+        $('.ajax-loader').css("visibility", "visible");
+      },
       url: '/dropdown_conditional_block',
       type: 'GET', 
-      data: { dropdown_id : dropdownId, dropdown_option_id : optionId }
+      data: { dropdown_id : dropdownId, dropdown_option_id : optionId }, 
+      complete: function(){
+        $('.ajax-loader').css("visibility", "hidden");
+      }
     });
   });
 
@@ -512,9 +521,15 @@
     if ($(this).val() != "") {
       formBlockId = $(this).attr('data-block-id');
       $.ajax({
+        beforeSend: function(){
+          $('.ajax-loader').css("visibility", "visible");
+        },
         url: '/form_block_conditional_block',
         type: 'GET', 
-        data: { form_block_id : formBlockId }
+        data: { form_block_id : formBlockId }, 
+        complete: function(){
+          $('.ajax-loader').css("visibility", "hidden");
+        }
       });
     }
   });
@@ -524,16 +539,28 @@
       if($(this).is(":checked")){
         checkedOptionId = $(this).data("check-id");
         $.ajax({
+          beforeSend: function(){
+            $('.ajax-loader').css("visibility", "visible");
+          },
           url: '/checkbox_conditional_block',
           type: 'GET',
-          data: {checked_option_id : checkedOptionId}
+          data: {checked_option_id : checkedOptionId},
+          complete: function(){
+            $('.ajax-loader').css("visibility", "hidden");
+          }
         });
       } else if ($(this).is(":not(:checked)")) {
         unCheckedOptionId = $(this).data("check-id");
         $.ajax({
+          beforeSend: function(){
+            $('.ajax-loader').css("visibility", "visible");
+          },
           url: '/checkbox_conditional_block',
           type: 'GET',
-          data: {unchecked_option_id : unCheckedOptionId}
+          data: {unchecked_option_id : unCheckedOptionId}, 
+          complete: function(){
+            $('.ajax-loader').css("visibility", "hidden");
+          }
         });
       }
     });
@@ -543,11 +570,36 @@
     $(this).on('click', function(){
       mcqOptionId = $(this).data("option-id");
       $.ajax({
+        beforeSend: function(){
+          $('.ajax-loader').css("visibility", "visible");
+        },
         url: '/mcq_conditional_block',
         type: 'GET',
-        data: {mcq_option_id : mcqOptionId}
+        data: {mcq_option_id : mcqOptionId}, 
+        complete: function(){
+          $('.ajax-loader').css("visibility", "hidden");
+        }
       });
     });
   });
 
 </script>
+
+
+<style type="text/css">
+  .ajax-loader {
+    visibility: hidden;
+    background-color: rgba(19, 18, 18, 0.7);
+    position: absolute;
+    z-index: +100 !important;
+    width: 100%;
+    height:100%;
+  }
+
+  .ajax-loader img {
+    position: relative;
+    top:50%;
+    left:40%;
+    height:150px;
+  }
+</style>
