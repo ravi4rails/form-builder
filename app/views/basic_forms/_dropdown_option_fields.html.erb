@@ -7,4 +7,12 @@
       <%= link_to_remove_association "X", f, class: "btn btn-danger" %>
     </div>
   </div>
+  <div id="loc" class="mt-2">
+    <%= f.fields_for :level_one_conditions do |level_one_condition| %>
+      <%= render 'level_one_condition_fields', f: level_one_condition %>
+    <% end %>
+    <div class="links">
+      <%= link_to_add_association 'Add Level One Condition', f, :level_one_conditions, class: "btn btn-success btn-sm mb-3 mt-3" %>
+    </div>
+  </div>
 </div>
