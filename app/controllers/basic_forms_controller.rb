@@ -178,6 +178,13 @@ class BasicFormsController < ApplicationController
     render nothing: true
   end
 
+  def sort_dropdowns
+    params[:order].each do |key, value|
+      Dropdown.find(value[:id]).update_attribute(:priority,value[:position])
+    end
+    render nothing: true
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_basic_form

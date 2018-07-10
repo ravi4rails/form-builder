@@ -13,6 +13,10 @@ set_positions = function(){
     $(this).attr("data-pos",i+1);
   });
 
+  $('.dropdown-sortable-form-block').each(function(i){
+    $(this).attr("data-pos",i+1);
+  });
+
 }
 
 ready = function(){
@@ -21,6 +25,7 @@ ready = function(){
   $('.sortable').sortable();
   $('.checkbox-sortable').sortable();
   $('.multiple-choice-sortable').sortable();
+  $('.dropdown-sortable').sortable();
   
   $('.sortable').sortable().bind('sortupdate', function(e, ui) {
     updated_order = []
@@ -57,6 +62,19 @@ ready = function(){
     $.ajax({
       type: "PUT",
       url: '/basic_forms/sort_multiple_choices',
+      data: { order: updated_order }
+    });
+  });
+
+  $('.dropdown-sortable').sortable().bind('sortupdate', function(e, ui) {
+    updated_order = []
+    set_positions();
+    $('.dropdown-sortable-form-block').each(function(i){
+      updated_order.push({ id: $(this).data("id"), position: i+1 });
+    });
+    $.ajax({
+      type: "PUT",
+      url: '/basic_forms/sort_dropdowns',
       data: { order: updated_order }
     });
   });

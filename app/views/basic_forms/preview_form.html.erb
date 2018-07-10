@@ -480,7 +480,7 @@
                 <hr>
                 <div class="dropdown-sortable">
                   <% @basic_form.dropdowns.each do |dropdown| %>
-                    <div class="form-group" style="border:1px solid #00f; padding:2%;background-color: #fff;">
+                    <div class="form-group dropdown-sortable-form-block" data-id="<%= dropdown.id %>" style="border:1px solid #00f; padding:2%;background-color: #fff;">
                       <label><%= dropdown.title %></label>
                       <%= f.select :dropdown_option, options_for_select(dropdown.dropdown_options.map {|dop| [dop.option, dop.id, "data-drop-value" => dropdown.id] }), {prompt: "Please select a value from the list"}, {class: "form-control select-drop"} %>
                       <div id="dropdown_condition_<%= dropdown.id %>" class="mt-2">
