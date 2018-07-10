@@ -443,7 +443,7 @@
                       <label><%= multiple_choice.question %></label>
                       <div class="form-group mcq-opts">
                         <% multiple_choice.mcq_options.each do |mcq| %>
-                          <%= f.radio_button multiple_choice.question, mcq.option, data: { option_id: mcq.id } %>
+                          <%= f.radio_button multiple_choice.question, mcq.option, data: { option_id: mcq.id, name: 'radios' } %>
                           <%= f.label mcq.option %><br>
                           <div id="mcq_option_condition_<%= mcq.id %>" class="mt-2">
                           </div>
@@ -532,7 +532,7 @@
   });
 
   $('.mcq-opts input[type="radio"]').each(function() {
-    $(this).click(function(){
+    $(this).on('click', function(){
       mcqOptionId = $(this).data("option-id");
       $.ajax({
         url: '/mcq_conditional_block',
